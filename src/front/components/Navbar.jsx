@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer"
+
 
 export const Navbar = () => {
+	const{store,dispatch} = useGlobalReducer()
 
 	return (
 		<nav className="navbar navbar-light bg-light">
@@ -9,9 +12,25 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
 				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
+					{
+						store.token ?
+						<>
+						<button className="btn btn-primary"
+						onClick={()=>{dispatch({type:"LOGOUT"})
+						localStorage.removeItem("token")
+						}}
+						>
+							Cerrar Sesion
+						</button>
+						</>: 
+						<>
+						{
+							<button>
+								<Link to="/login">iniciar sesion</Link>
+							</button>
+						}
+						</>
+					}
 				</div>
 			</div>
 		</nav>
