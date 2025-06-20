@@ -66,7 +66,7 @@ export const Login = () => {
                             <label htmlFor="btnEmail">Correo electronico: </label>
                             <input
                                 type="text"
-                                placeholder="eldeimian@email.com"
+                                placeholder="JhonDoe@email.com"
                                 className="form-control"
                                 id="btnEmail"
                                 name="email"
