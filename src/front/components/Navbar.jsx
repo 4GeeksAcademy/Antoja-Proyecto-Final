@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import useGlobalReducer from "../hooks/useGlobalReducer"
+
 import logo from "../assets/img/Revised.png"
 
 export const Navbar = () => {
+	const{store,dispatch} = useGlobalReducer()
 
 	return (
 		<nav className="navbar navbar-light file-navbar">
@@ -10,15 +13,25 @@ export const Navbar = () => {
 					<img src={logo} alt="Antoja Logo" className="navbar-brand mb-0 h1" style={{ height: "100px" }} />
 				</Link>
 				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-white text-dark">MENÚ</button>
-					</Link>
-					<Link to="/demo">
-						<button className="btn btn-white text-dark">REGISTRARME</button>
-					</Link>
-					<Link to="/demo">
-						<button className="btn btn-white text-dark">CARRITO DE COMPRAS</button>
-					</Link>
+					{
+						store.token ?
+						<>
+						<button className="btn btn-primary"
+						onClick={()=>{dispatch({type:"LOGOUT"})
+						localStorage.removeItem("token")
+						}}
+						>
+							Cerrar Sesion
+						</button>
+						</>: 
+						<>
+						{
+							<button>
+								<Link to="/login">iniciar sesion</Link>
+							</button>
+						}
+						</>
+					}
 				</div>
 			</div>
 		</nav>
