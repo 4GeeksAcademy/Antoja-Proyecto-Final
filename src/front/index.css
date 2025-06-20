@@ -1,0 +1,48 @@
+.icons-navbar {
+    height: 150px;
+    display: flex;
+    justify-content: space-between;
+
+}
+.file-navbar {
+    background-color: rgb(170, 217, 233);
+}
+
+.Carousel-array {
+    width: 100vw;
+    padding: 0;
+    display: flex;
+    overflow-x: scroll;
+    gap: 20px;
+
+}
+.my-product {
+    border-radius: 5px;
+    min-width: 350px;
+    height: 450px;
+
+}
+.round-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+}
+ 
+.information-zone {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    gap: 30px;
+
+}
+.image-restaurant{
+    height: 350px;
+    width: 350px;
+    border-radius: 50%;
+
+}
+.quote-icons{
+    font-size: 50px;
+}

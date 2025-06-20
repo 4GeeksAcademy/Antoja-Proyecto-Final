@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"
 
+import logo from "../assets/img/Revised.png"
 
 export const Navbar = () => {
 	const{store,dispatch} = useGlobalReducer()
 
 	return (
-		<nav className="navbar navbar-light bg-light">
+		<nav className="navbar navbar-light file-navbar">
 			<div className="container">
 				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
+					<img src={logo} alt="Antoja Logo" className="navbar-brand mb-0 h1" style={{ height: "100px" }} />
 				</Link>
 				<div className="ml-auto">
 					{
@@ -36,3 +37,5 @@ export const Navbar = () => {
 		</nav>
 	);
 };
+
+	
