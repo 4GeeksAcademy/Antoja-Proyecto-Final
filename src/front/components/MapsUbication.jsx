@@ -4,16 +4,33 @@ export const MapsUbication = () => {
 
     useEffect(() => {
 
-        const map = new window.google.maps.Map(document.getElementById("mapa"), {
-            center: { lat: -33.4569, lng: -70.6483 }, // Santiago
-            zoom: 14,
-        });
+       const address = "Avenida Apoquindo 3000, Las Condes, Santiago, Chile";
+        const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY; // O reemplaza con tu key si no usas env
 
-        new window.google.maps.Marker({
-            position: { lat: -33.4569, lng: -70.6483 },
-            map: map,
-            title: "Antoja Pizzería",
-        });
+        fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "OK") {
+                    const location = data.results[0].geometry.location;
+
+                    const map = new window.google.maps.Map(document.getElementById("mapa"), {
+                        center: location,
+                        zoom: 14,
+                    });
+
+                    new window.google.maps.Marker({
+                        position: location,
+                        map: map,
+                        title: "Antoja Pizzería",
+                    });
+                } else {
+                    console.error("No se pudo geocodificar la dirección:", data.status);
+                }
+            })
+            .catch(err => {
+                console.error("Error al obtener coordenadas:", err);
+            });
+
     }, []);
 
     return (

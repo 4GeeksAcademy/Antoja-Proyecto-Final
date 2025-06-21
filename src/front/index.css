@@ -46,3 +46,22 @@
 .quote-icons{
     font-size: 50px;
 }
+.information-contacts{
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    align-items: flex-start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+
+}
+.info-icons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+.info-icons i {
+    font-size
+
+}
