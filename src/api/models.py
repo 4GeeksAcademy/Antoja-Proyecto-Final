@@ -25,5 +25,6 @@ class Comment(db.Model):
     __tablename__ = "comment"
     id: Mapped[int] = mapped_column(primary_key = True)
     email: Mapped[str] = mapped_column(String(80), nullable=False)
+    asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 

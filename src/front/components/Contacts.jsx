@@ -12,6 +12,9 @@ export const Contacts = () => {
                     <i class="fa-solid fa-phone"></i>
                 </div>
             </div>
+            <Link to = "/comment">
+            Escribenos
+            </Link>
         </div>
     )
 }

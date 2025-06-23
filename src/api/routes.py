@@ -89,20 +89,28 @@ def get_one_user():
     if user is None:
         return jsonify("User not found"), 404
     return jsonify(user.serialize()), 200
+
 @api.route("/comment", methods = ["POST"])
-def add_user():
+def add_comment():
     data = request.json
+    if not data:
+        return jsonify({"msg": "No se recibió un JSON válido"}), 400
+
     email = data.get("email")
+    asunto = data.get("asunto")
     comment = data.get("comment")
-    if email is None:
-        return jsonify("Necesitas un email"), 400
     
-    comentario = Comment(email = email, comment= comment) 
+    
+    if not email or not asunto or not comment:
+        return jsonify({"msg": "Todos los campos (email, asunto y comentario) son obligatorios"}), 400
+    
+    
+    comentario = Comment(email = email, comment= comment, asunto = asunto) 
 
     db.session.add(comentario)
     try:
         db.session.commit()
-        return jsonify("Gracias por tus comentarios, nos contactaremos a la brevedad")
+        return jsonify({"msg": "Gracias por tus comentarios, nos contactaremos a la brevedad"}), 201
     except Exception as error: 
         db.session.rollback()
-        return jsonify(f"Error : {error.args}"), 500
+        return jsonify({"msg": f"Error interno del servidor: {error.args}"}), 500
