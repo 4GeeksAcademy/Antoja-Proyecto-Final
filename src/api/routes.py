@@ -94,7 +94,7 @@ def get_one_user():
 def add_comment():
     data = request.json
     if not data:
-        return jsonify({"msg": "No se recibió un JSON válido"}), 400
+        return jsonify({"message": "No se recibió un JSON válido"}), 400
 
     email = data.get("email")
     asunto = data.get("asunto")
@@ -102,7 +102,7 @@ def add_comment():
     
     
     if not email or not asunto or not comment:
-        return jsonify({"msg": "Todos los campos (email, asunto y comentario) son obligatorios"}), 400
+        return jsonify({"message": "Todos los campos (email, asunto y comentario) son obligatorios"}), 400
     
     
     comentario = Comment(email = email, comment= comment, asunto = asunto) 
@@ -110,7 +110,7 @@ def add_comment():
     db.session.add(comentario)
     try:
         db.session.commit()
-        return jsonify({"msg": "Gracias por tus comentarios, nos contactaremos a la brevedad"}), 201
+        return jsonify({"message": "Gracias por tus comentarios, nos contactaremos a la brevedad"}), 201
     except Exception as error: 
         db.session.rollback()
-        return jsonify({"msg": f"Error interno del servidor: {error.args}"}), 500
+        return jsonify({"messge": f"Error interno del servidor: {error.args}"}), 500

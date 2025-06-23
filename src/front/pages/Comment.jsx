@@ -44,8 +44,7 @@ export const Comment = () => {
 
     return (
         <div className="container">
-            <div className="row d-flex justify-content-center mt-4">
-
+            <div className="row d-flex justify-content-center my-5">
                 <div className="col-12 col-lg-6 p-4 p-md-5">
                     <h2 className="mb-3 fw-bold">Contáctenos</h2>
                     <p className="lead mb-5">
@@ -64,7 +63,7 @@ export const Comment = () => {
                             </div>
                         </div>
 
-                        
+
                         <div className="col-md-6 d-flex align-items-start">
                             <div className="me-3">
                                 <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
@@ -72,12 +71,12 @@ export const Comment = () => {
                                 </span>
                             </div>
                             <div>
-                                <h5 className="mb-1 fw-bold">Website</h5>
+                                <h5 className="mb-1 fw-bold">Sitio</h5>
                                 <p className="text-muted mb-0">antoja.com</p>
                             </div>
                         </div>
 
-                        
+
                         <div className="col-md-6 d-flex align-items-start">
                             <div className="me-3">
                                 <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
