@@ -12,12 +12,14 @@ export const Register = () => {
     const [user, setUser] = useState(initialStateUser)
     const navigate = useNavigate()
 
-    const handleChange = ({target}) => {
-        setUser({
-            ...user,
-            [target.name]: target.value
-        })
-    }
+    const handleChange = ({ target }) => {
+    const value = target.type === "checkbox" ? target.checked : target.value;
+
+    setUser(prevUser => ({
+        ...prevUser,
+        [target.name]: value
+    }));
+};
 
     const handleSubmit = async (event) =>{
         event.preventDefault()
@@ -91,6 +93,7 @@ export const Register = () => {
                             name="is_admin"
                             className="form-check-input ms-3 mt-1"
                             id="btnToggle"
+                            checked={user.is_admin}
                             onChange={handleChange} />
 
 
