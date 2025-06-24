@@ -101,7 +101,7 @@ export const Comment = () => {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-6 border rounded-3 py-4 bg-dark">
+                <div className="col-md-6 border rounded-4 py-4 bg-dark">
                     <form onSubmit={handleOnSubmit}>
                         <div className="mb-3">
                             <label htmlFor="exampleFormControlInput1" className="form-label text-light">Email</label>
