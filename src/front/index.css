@@ -57,20 +57,20 @@
 }
 .information-contacts {
   display: flex;
-  flex-direction: row;
-  gap: 50px;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .info-icons {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 5px;
+  margin-left: 100px;
 }
 .container-footer {
   background-color: rgb(170, 217, 233);
   height: 200px;
+  margin-bottom: 10px;
 }
 .imagen-gallery {
   display: flex;
@@ -94,5 +94,12 @@
   background-position: top center;
   height: 500px;
   position: relative;
-
+}
+.text-footer{
+  margin: 0px;
+}
+.info-footer{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
