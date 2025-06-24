@@ -96,3 +96,18 @@
   position: relative;
 
 }
+.image-restaurant{
+    height: 350px;
+    width: 350px;
+    border-radius: 50%;
+
+}
+.quote-icons{
+    font-size: 50px;
+}
+
+.emoticones{
+     width: 40px; 
+     height: 40px; 
+     background-color: #3d8f99; 
+}
