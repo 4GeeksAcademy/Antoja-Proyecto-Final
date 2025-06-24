@@ -1,48 +1,98 @@
 .icons-navbar {
-    height: 150px;
-    display: flex;
-    justify-content: space-between;
-
+  height: 150px;
+  display: flex;
+  justify-content: space-between;
 }
 .file-navbar {
-    background-color: rgb(170, 217, 233);
+  background-color: rgb(170, 217, 233);
 }
-
+.container-photo {
+  background-image: url("./assets/img/Portada.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 500px;
+  position: relative;
+}
+.text-photo {
+  color: rgb(170, 217, 233);
+  margin-left: 100px;
+  margin-top: 100px;
+}
+.btn-menu {
+  background-color: rgb(170, 217, 233);
+  margin-left: 100px;
+  margin-top: 200px;
+}
 .Carousel-array {
-    width: 100vw;
-    padding: 0;
-    display: flex;
-    overflow-x: scroll;
-    gap: 20px;
-
+  width: 100vw;
+  padding: 0;
+  display: flex;
+  overflow-x: scroll;
+  gap: 20px;
 }
 .my-product {
-    border-radius: 5px;
-    min-width: 350px;
-    height: 450px;
-
+  border-radius: 5px;
+  min-width: 350px;
+  height: 450px;
 }
 .round-button {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
- 
 .information-zone {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    gap: 30px;
-
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  gap: 30px;
 }
-.image-restaurant{
-    height: 350px;
-    width: 350px;
-    border-radius: 50%;
-
+.image-restaurant {
+  height: 350px;
+  width: 350px;
+  border-radius: 50%;
 }
-.quote-icons{
-    font-size: 50px;
+.quote-icons {
+  font-size: 50px;
+}
+.information-contacts {
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.info-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.container-footer {
+  background-color: rgb(170, 217, 233);
+  height: 200px;
+}
+.imagen-gallery {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+.image-design {
+  width: 300px;
+  height: 500px;
+  border-radius: 20px;
+  object-fit: cover;
+  cursor: pointer;
+}
+.container-front{
+  background-image: url('./assets/img/Front.jpg');
+  background-size: cover;
+  background-position: top center;
+  height: 500px;
+  position: relative;
+
 }
