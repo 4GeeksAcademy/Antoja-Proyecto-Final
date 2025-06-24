@@ -1,11 +1,9 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { Comment } from "./Comment"
-import { CarouselProducts } from "../components/CarouselProducts"
-import { AboutUs } from "../components/AboutUs"
-import { Contacts } from "../components/Contacts"
-import { MapsUbication } from "../components/MapsUbication"
+import { PhotoPage } from "../components/PhotoPage.jsx"
+import { AboutUs } from "../components/AboutUs.jsx"
+import { MapsUbication } from "../components/MapsUbication.jsx"
 
 export const Home = () => {
 
@@ -30,19 +28,19 @@ export const Home = () => {
 				Please check if the backend is running and the backend port is public.`
 			);
 		}
-
 	}
-
 	useEffect(() => {
 		loadMessage()
 	}, [])
 
 	return (
 		<>
-			<CarouselProducts />
-            <AboutUs />
-            <Contacts />
-            <MapsUbication />
+		<PhotoPage />
+		<AboutUs />
+		<MapsUbication />
+		
 		</>
+	
+
 	);
 }; 
