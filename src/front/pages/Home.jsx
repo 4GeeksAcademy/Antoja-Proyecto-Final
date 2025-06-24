@@ -1,9 +1,8 @@
 import React, { useEffect } from "react"
 import rigoImageUrl from "../assets/img/rigo-baby.jpg";
 import useGlobalReducer from "../hooks/useGlobalReducer.jsx";
-import { CarouselProducts } from "../components/CarouselProducts.jsx"
+import { PhotoPage } from "../components/PhotoPage.jsx"
 import { AboutUs } from "../components/AboutUs.jsx"
-import { Contacts } from "../components/Contacts.jsx";
 import { MapsUbication } from "../components/MapsUbication.jsx"
 
 export const Home = () => {
@@ -36,9 +35,8 @@ export const Home = () => {
 
 	return (
 		<>
-		<CarouselProducts />
+		<PhotoPage />
 		<AboutUs />
-		<Contacts />
 		<MapsUbication />
 		
 		</>
