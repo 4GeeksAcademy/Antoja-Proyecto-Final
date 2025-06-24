@@ -4,7 +4,8 @@ import {Link, useNavigate} from "react-router-dom"
 const initialStateUser = {
     name:"",
     email:"",
-    password:""
+    password:"",
+    is_admin:false
 }
 
 export const Register = () => {
@@ -29,6 +30,7 @@ export const Register = () => {
             body: JSON.stringify(user)
         })
         if(response.status === 201){
+            console.log(user)
             setUser(initialStateUser)
             setTimeout(()=>{
                 navigate("/login")
@@ -81,6 +83,17 @@ export const Register = () => {
                                 name="password"
                                 onChange={handleChange}
                             />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="btnToggle" className="form-check-label"> Admim </label>
+                            <input 
+                            type="checkbox"
+                            name="is_admin"
+                            className="form-check-input ms-3 mt-1"
+                            id="btnToggle"
+                            onChange={handleChange} />
+
+
                         </div>
                         <button className="btn btn-outline-primary w-100">
                             Registrar

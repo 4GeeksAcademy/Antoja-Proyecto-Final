@@ -36,6 +36,7 @@ def add_user():
     email=data.get("email", None)
     password=data.get("password",None)
     name=data.get("name", None)
+    is_admin= data.get("admin", False)
     salt = b64encode(os.urandom(32)).decode("utf-8")
     if email is None or password is None or name is None :
         return jsonify("necesitas completar el email, password y su nombre completo"), 400
@@ -45,6 +46,7 @@ def add_user():
     user.name = name
     user.password = set_password(password, salt)
     user.salt = salt
+    user.admin = is_admin
     db.session.add(user)
     try:
         db.session.commit()
