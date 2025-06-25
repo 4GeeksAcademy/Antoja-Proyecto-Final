@@ -1,8 +1,14 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Boolean, Text
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Text, Integer, Float, ForeignKey, Table, Column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from typing import List
 
 db = SQLAlchemy()
+
+pizza_ingrediente = Table('pizza_ingrediente', db.metadata,
+    Column('pizza_id', Integer, ForeignKey('pizzas.id', ondelete="CASCADE"), primary_key=True),
+    Column('ingrediente_id', Integer, ForeignKey('ingredientes.id', ondelete="CASCADE"), primary_key=True)
+)
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -28,3 +34,47 @@ class Comment(db.Model):
     asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 
+
+
+#Menú Pizzas
+class Pizza(db.Model):
+    __tablename__ = "pizzas"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
+    precio: Mapped[int] = mapped_column(Integer, nullable=False)
+    imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
+    categoria: Mapped[str] = mapped_column(String(50), nullable=False, default="Pizza")
+
+    
+    ingredientes: Mapped[List["Ingrediente"]] = relationship(
+        secondary=pizza_ingrediente,
+        back_populates="pizzas"
+    )
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "precio": self.precio,
+            "imagen_url": self.imagen_url,
+            "categoria": self.categoria,
+            "ingredientes": [ing.serialize() for ing in self.ingredientes]
+        }
+
+class Ingrediente(db.Model):
+    __tablename__ = "ingredientes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    nombre: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
+
+    pizzas: Mapped[List["Pizza"]] = relationship(
+        secondary=pizza_ingrediente,
+        back_populates="ingredientes"
+    )
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre
+        }

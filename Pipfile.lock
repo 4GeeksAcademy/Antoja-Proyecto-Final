@@ -370,6 +370,7 @@
                 "sha256:ffe8ed017e4ed70f68b7b371d84b7d4a790368db9203dfc2d222febd3a9c8863"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.8'",
             "version": "==2.9.10"
         },
         "pyjwt": {
