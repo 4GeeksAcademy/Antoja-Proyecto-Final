@@ -13,8 +13,6 @@ class User(db.Model):
     salt: Mapped[str] = mapped_column(String(200),nullable=False, default=1)
     admin:Mapped[bool] = mapped_column(Boolean, default=False)
 
-
-
     def serialize(self):
         return {
             "id": self.id,

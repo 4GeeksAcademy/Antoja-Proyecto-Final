@@ -5,7 +5,7 @@ export const Menu = () => {
 
     return (
         <div className="container p-0 ">
-            <div className="row col-12 col-md-6">
+            <div className="row col-12">
                 <div className="text-start mt-5 text-dark">
                     <h2>Productos Destacados</h2>
                 </div>
