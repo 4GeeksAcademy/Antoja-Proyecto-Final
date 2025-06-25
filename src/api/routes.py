@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Comment
+from api.models import db, User, Comment, Pizza, Ingrediente
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -122,3 +122,95 @@ def add_comment():
     except Exception as error: 
         db.session.rollback()
         return jsonify({"messge": f"Error interno del servidor: {error.args}"}), 500
+    
+
+
+@api.route("/pizzas", methods=['GET'])
+def get_pizzas():
+    try:
+        pizzas = Pizza.query.all()
+        serialize_pizzas = [pizza.serialize() for pizza in pizzas]
+        return jsonify(serialize_pizzas), 200
+    except Exception as error:
+        return jsonify({"message": f"Error interno: {error.args}"}), 500
+
+@api.route("/pizzas/<int:pizza_id>", methods=['GET'])
+def get_single_pizza(pizza_id):
+    pizza = Pizza.query.get(pizza_id)
+    if not pizza:
+        return jsonify({"mesage": "Pizza no encontrada"}), 404
+    return jsonify(pizza.serialize()), 200
+
+
+
+#Funciones  que tendra el administrador del resto
+@api.route("/pizzas", methods=['POST'])
+# @jwt_required()
+def create_pizza():
+    data = request.json
+    if not data or not data.get('nombre') or not data.get('precio'):
+        return jsonify({"message": "Faltan datos: 'nombre' y 'precio' son requeridos"}), 400
+    ingrediente_ids = data.get('ingrediente_ids', [])
+    ingredientes_obj = Ingrediente.query.filter(Ingrediente.id.in_(ingrediente_ids)).all()
+
+    pizza_nueva = Pizza(
+        nombre=data["nombre"],
+        precio=data["precio"],
+        imagen_url=data.get("imagen_url"),
+        categoria=data.get("categoria", "Pizza"),
+        ingredientes=ingredientes_obj
+    )
+
+    db.session.add(pizza_nueva)
+    try:
+        db.session.commit()
+        return jsonify(pizza_nueva.serialize()), 201
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"message": f"Error al crear la pizza: {error.args}"}), 500
+    
+
+@api.route("/pizzas/<int:pizza_id>", methods=['DELETE'])
+# @jwt_required()
+def delete_pizza(pizza_id):
+    pizza = Pizza.query.get(pizza_id)
+    if not pizza:
+        return jsonify({"messg": "Pizza no encontrada"}), 404
+    db.session.delete(pizza)
+
+    try:
+        db.session.commit()
+        return jsonify({"message": f"Pizza eliminada correctamente"}), 200
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"message": f"Error al eliminar la pizza: {error.args}"}), 500
+    
+    
+@api.route("/pizzas/<int:pizza_id>", methods=['PUT'])
+# @jwt_required()
+def update_pizza(pizza_id):
+    pizza = Pizza.query.get(pizza_id)
+    if not pizza:
+        return jsonify({"message": "Pizza no encontrada"}), 404
+
+    data = request.json
+    if not data:
+        return jsonify({"message": "No se recibieron datos para actualizar"}), 400
+
+
+    pizza.nombre = data.get("nombre", pizza.nombre)
+    pizza.precio = data.get("precio", pizza.precio)
+    pizza.imagen_url = data.get("imagen_url", pizza.imagen_url)
+    pizza.categoria = data.get("categoria", pizza.categoria)
+
+
+    if "ingrediente_ids" in data:
+        ingrediente_ids = data["ingrediente_ids"]
+        nuevos_ingredientes_obj = Ingrediente.query.filter(Ingrediente.id.in_(ingrediente_ids)).all()
+        pizza.ingredientes = nuevos_ingredientes_obj
+    try:
+        db.session.commit()
+        return jsonify(pizza.serialize()), 200
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"message": f"Error al actualizar la pizza: {error.args}"}), 500
