@@ -35,6 +35,8 @@ export const Login = () => {
         if(response.ok){
             localStorage.setItem("token", data.token)
             dispatch({type:"LOGIN", payload: data.token})
+            dispatch({type:"LOGIN_USER", payload:data.user})
+            console.log(store.user)
             setTimeout(()=>{
                 navigate("/")
             }, 2000)
@@ -52,6 +54,7 @@ export const Login = () => {
     if(store.token){
         return <Navigate to="/" />
     }
+    
 
      return (
         <div className="container">

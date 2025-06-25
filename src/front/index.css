@@ -55,23 +55,7 @@
 .quote-icons {
   font-size: 50px;
 }
-.information-contacts {
-  display: flex;
-  flex-direction: row;
-  gap: 50px;
-  align-items: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-.info-icons {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.container-footer {
-  background-color: rgb(170, 217, 233);
-  height: 200px;
-}
+
 .imagen-gallery {
   display: flex;
   justify-content: center;
@@ -88,26 +72,79 @@
   object-fit: cover;
   cursor: pointer;
 }
-.container-front{
-  background-image: url('./assets/img/Front.jpg');
+.container-front {
+  background-image: url("./assets/img/Front.jpg");
   background-size: cover;
-  background-position: top center;
+  background-position: bottom center;
   height: 500px;
   position: relative;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+}
+.content-text{
+  background-color: rgba(255, 255, 255, 0.266);
+  border-radius: 20px;
+  display: flex;
+  min-height: 200px;
+  backdrop-filter: blur(10px);
+  box-shadow:0 3px 30px rgba(0, 0, 0, 0.1);
+  color: black;
 
 }
-.image-restaurant{
-    height: 350px;
-    width: 350px;
-    border-radius: 50%;
-
+.content-text p{
+  margin: 10px;
 }
-.quote-icons{
-    font-size: 50px;
+.information-contacts {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 80px;
+}
+.information-contacts-center {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 150px;
+}
+.information-contacts-rigth {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-right: 200px;
+}
+.info-icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  margin-left: 100px;
+}
+.container-footer {
+  background-color: rgb(170, 217, 233);
+  height: 200px;
+  margin-bottom: 10px;
+}
+.text-footer {
+  margin: 0px;
+}
+.info-footer {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+}
+.image-restaurant {
+  height: 350px;
+  width: 350px;
+  border-radius: 50%;
+}
+.quote-icons {
+  font-size: 50px;
 }
 
-.emoticones{
-     width: 40px; 
-     height: 40px; 
-     background-color: #3d8f99; 
+.emoticones {
+  width: 40px;
+  height: 40px;
+  background-color: #3d8f99;
 }

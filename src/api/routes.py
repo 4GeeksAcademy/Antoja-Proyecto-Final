@@ -36,6 +36,7 @@ def add_user():
     email=data.get("email", None)
     password=data.get("password",None)
     name=data.get("name", None)
+    is_admin= data.get("is_admin", False)
     salt = b64encode(os.urandom(32)).decode("utf-8")
     if email is None or password is None or name is None :
         return jsonify("necesitas completar el email, password y su nombre completo"), 400
@@ -45,6 +46,7 @@ def add_user():
     user.name = name
     user.password = set_password(password, salt)
     user.salt = salt
+    user.admin = is_admin
     db.session.add(user)
     try:
         db.session.commit()
@@ -68,7 +70,13 @@ def handle_login():
     else:
         if(check_password(user.password,password, user.salt)):
             token = create_access_token(identity=str(user.id))
-            return jsonify({"token": token}),200
+            return jsonify({"token": token , 
+                            "user":{
+                                "id": user.id,
+                                "email": user.email,
+                                "name": user.name,
+                                "is_admin": user.admin
+                            }}),200
         else:
             return jsonify("Bad password"),400
         

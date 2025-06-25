@@ -16,14 +16,14 @@ class User(db.Model):
     password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column(String(100))
     salt: Mapped[str] = mapped_column(String(200),nullable=False, default=1)
-
-
+    admin:Mapped[bool] = mapped_column(Boolean, default=False)
 
     def serialize(self):
         return {
             "id": self.id,
             "email": self.email,
-            "name": self.name
+            "name": self.name,
+            "admin": self.admin
             # do not serialize the password, its a security breach
         }
     
