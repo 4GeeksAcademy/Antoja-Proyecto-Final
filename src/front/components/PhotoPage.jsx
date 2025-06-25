@@ -4,6 +4,7 @@ import pizza from "../assets/img/pizza.jpg";
 
 export const PhotoPage = () => {
     const { store, dispatch } = useGlobalReducer()
+
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -13,7 +14,6 @@ export const PhotoPage = () => {
             navigate("/login")
         }
     }
-
     return (
         <div className="container-photo p-0 ">
             {
