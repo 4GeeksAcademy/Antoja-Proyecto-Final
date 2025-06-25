@@ -14,6 +14,7 @@ export const PhotoPage = () => {
         }
     }
 
+
     return (
         <div className="container-photo p-0 ">
             <div className="row col-12 col-md-6">
