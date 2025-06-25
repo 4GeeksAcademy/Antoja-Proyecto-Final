@@ -11,8 +11,6 @@ class User(db.Model):
     name: Mapped[str] = mapped_column(String(100))
     salt: Mapped[str] = mapped_column(String(200),nullable=False, default=1)
 
-
-
     def serialize(self):
         return {
             "id": self.id,
@@ -25,5 +23,6 @@ class Comment(db.Model):
     __tablename__ = "comment"
     id: Mapped[int] = mapped_column(primary_key = True)
     email: Mapped[str] = mapped_column(String(80), nullable=False)
+    asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 
