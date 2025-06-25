@@ -13,7 +13,15 @@ export const initialStore=()=>{
         background: null,
       }
     ],
-    token: localStorage.getItem("token") || null
+    token: localStorage.getItem("token") || null,
+
+    user:{
+      id:1,
+      name:"",
+      email:"",
+      is_admin:false
+    }
+
 
   }
 }
@@ -44,8 +52,20 @@ export default function storeReducer(store, action = {}) {
       case "LOGOUT":
         return{
           ...store,
-          token: localStorage.getItem("token") || null,
+          token: null,
+          user: {id:null,
+            name:"",
+            email:"",
+            is_admin: false
+          }
         }
+    case "LOGIN_USER":
+      return{
+        ...store,
+        user: action.payload
+      }
+    
+
         
     default:
       throw Error('Unknown action.');
