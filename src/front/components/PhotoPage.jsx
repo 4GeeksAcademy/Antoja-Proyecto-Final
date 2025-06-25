@@ -3,7 +3,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer"
 import pizza from "../assets/img/pizza.jpg";
 
 export const PhotoPage = () => {
-    const { store } = useGlobalReducer()
+
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -13,10 +13,22 @@ export const PhotoPage = () => {
             navigate("/login")
         }
     }
-
-
+    const{dispatch, store} = useGlobalReducer()
+    
     return (
         <div className="container-photo p-0 ">
+            {
+                store.user.is_admin ? (
+                    <div>
+                        <h1>soy admin</h1>
+                    </div>
+                ):
+                (
+                    <div>
+                        NO soy admin
+                    </div>
+                )
+            }
             <div className="row col-12 col-md-6">
                 <div className="text-photo">
                     <h1>50% Chilena, 50% Argentina...100% Sabor </h1>
