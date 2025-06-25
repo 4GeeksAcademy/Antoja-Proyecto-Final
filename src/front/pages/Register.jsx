@@ -4,19 +4,22 @@ import {Link, useNavigate} from "react-router-dom"
 const initialStateUser = {
     name:"",
     email:"",
-    password:""
+    password:"",
+    is_admin:false
 }
 
 export const Register = () => {
     const [user, setUser] = useState(initialStateUser)
     const navigate = useNavigate()
 
-    const handleChange = ({target}) => {
-        setUser({
-            ...user,
-            [target.name]: target.value
-        })
-    }
+    const handleChange = ({ target }) => {
+    const value = target.type === "checkbox" ? target.checked : target.value;
+
+    setUser(prevUser => ({
+        ...prevUser,
+        [target.name]: value
+    }));
+};
 
     const handleSubmit = async (event) =>{
         event.preventDefault()
@@ -29,6 +32,7 @@ export const Register = () => {
             body: JSON.stringify(user)
         })
         if(response.status === 201){
+            console.log(user)
             setUser(initialStateUser)
             setTimeout(()=>{
                 navigate("/login")
@@ -81,6 +85,18 @@ export const Register = () => {
                                 name="password"
                                 onChange={handleChange}
                             />
+                        </div>
+                        <div className="form-group mb-3">
+                            <label htmlFor="btnToggle" className="form-check-label"> Admim </label>
+                            <input 
+                            type="checkbox"
+                            name="is_admin"
+                            className="form-check-input ms-3 mt-1"
+                            id="btnToggle"
+                            checked={user.is_admin}
+                            onChange={handleChange} />
+
+
                         </div>
                         <button className="btn btn-outline-primary w-100">
                             Registrar
