@@ -1,11 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"
 import pizza from "../assets/img/pizza.jpg";
-import useGlobalReducer from "../hooks/useGlobalReducer"
-
 
 export const PhotoPage = () => {
-    const { store } = useGlobalReducer()
+    const { store, dispatch } = useGlobalReducer()
     const navigate = useNavigate()
 
     const handleClick = () => {
@@ -15,7 +13,6 @@ export const PhotoPage = () => {
             navigate("/login")
         }
     }
-
 
     return (
         <div className="container-photo p-0 ">
