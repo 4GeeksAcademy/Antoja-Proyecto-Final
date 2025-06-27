@@ -15,6 +15,8 @@ import { Comment} from "./pages/Comment"
 import { Menu } from "./components/Menu"
 import { History } from "./components/History";
 import { Carrito } from "./components/Carrito";
+import {UpdateProducts} from "./pages/UpdateProducts"
+import { CrearProductos } from "./pages/CrearProductos";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -38,7 +40,8 @@ export const router = createBrowserRouter(
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/comment" element={<Comment/>}/>
-        
+        <Route path="/update-products/:pizzaId" element={<UpdateProducts/>}/>
+        <Route path="/crear-producto" element={<CrearProductos />} />
       </Route>
     )
 );
