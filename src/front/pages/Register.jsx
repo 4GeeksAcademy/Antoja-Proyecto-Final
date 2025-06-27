@@ -31,6 +31,7 @@ export const Register = () => {
             },
             body: JSON.stringify(user)
         })
+        const data = await response.json(); 
         if(response.status === 201){
             console.log(user)
             setUser(initialStateUser)
@@ -39,7 +40,7 @@ export const Register = () => {
             }, 2000)
         }
         else if(response.status === 400){
-            alert("falta algun valor para crear el usuario, por favor completa el formulario")
+            alert(data.mensaje)
         } else{
             alert("Error al registrar el usuario")
         }
