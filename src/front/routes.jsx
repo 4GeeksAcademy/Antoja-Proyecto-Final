@@ -14,6 +14,7 @@ import { Register } from "./pages/Register";
 import { Comment} from "./pages/Comment"
 import { Menu } from "./components/Menu"
 import { History } from "./components/History";
+import { Carrito } from "./components/Carrito";
 
 export const router = createBrowserRouter(
     createRoutesFromElements(
@@ -31,6 +32,7 @@ export const router = createBrowserRouter(
         <Route path="/comment" element={<Comment />} />
         <Route path="/menu" element={<Menu />} />
         <Route path="/history" element={<History/>} />
+        <Route path="/carrito" element={<Carrito />}/>
         <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
         <Route path="/demo" element={<Demo />} />
         <Route path="/login" element={<Login/>}/>

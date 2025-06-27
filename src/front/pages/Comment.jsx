@@ -144,9 +144,10 @@ export const Comment = () => {
                         </div>
                         <div className="d-flex justify-content-end">
                             <button
+                                type="button"
                                 className="btn btn-light"
-                            >
-                                Enviar
+                                onClick={() => { alert("Mensaje enviado exitosamente. ¡Gracias por contactárnos!") }}
+                            >Enviar
                             </button>
                         </div>
                     </form>
