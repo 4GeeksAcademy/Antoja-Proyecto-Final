@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 
-
 const initialState = {
     email: "",
     asunto: "",
@@ -12,7 +11,6 @@ export const Comment = () => {
     const [comment, setComment] = useState(initialState)
 
     const [message, setMessage] = useState(null)
-
 
     const handleChange = (event) => {
         setMessage(null);
@@ -46,6 +44,7 @@ export const Comment = () => {
                 setComment(initialState)
                 return Error(data.message || `Error del servidor: ${response.status}`)
             }
+
         } catch (error) {
             setMessage({ type: 'danger', text: error.message || "No se pudo enviar el comentario. Inténtalo de nuevo." });
         }

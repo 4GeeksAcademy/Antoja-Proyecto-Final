@@ -35,7 +35,6 @@ class Comment(db.Model):
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 
 
-
 #Menú Pizzas
 class Pizza(db.Model):
     __tablename__ = "pizzas"
