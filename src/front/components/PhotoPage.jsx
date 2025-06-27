@@ -3,6 +3,7 @@ import useGlobalReducer from "../hooks/useGlobalReducer"
 import pizza from "../assets/img/pizza.jpg";
 
 export const PhotoPage = () => {
+    const { store, dispatch } = useGlobalReducer()
 
     const navigate = useNavigate()
 
@@ -13,8 +14,6 @@ export const PhotoPage = () => {
             navigate("/login")
         }
     }
-    const{dispatch, store} = useGlobalReducer()
-    
     return (
         <div className="container-photo p-0 ">
             {

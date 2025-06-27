@@ -1,62 +1,58 @@
-import {useState} from "react"
-import {Link, useNavigate, Navigate} from "react-router-dom"
+import { useState } from "react"
+import { Link, useNavigate, Navigate } from "react-router-dom"
 import useGlobalReducer from "../hooks/useGlobalReducer"
 
 const initialStateUser = {
-    email:"",
-    password:""
+    email: "",
+    password: ""
 }
 
 export const Login = () => {
     const [user, setUser] = useState(initialStateUser)
 
-    const{dispatch, store} = useGlobalReducer()
+    const { dispatch, store } = useGlobalReducer()
     const navigate = useNavigate()
 
-    const handleChange = ({target}) => {
+    const handleChange = ({ target }) => {
         setUser({
             ...user,
-            [target.name] : target.value
+            [target.name]: target.value
         })
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault()
         const url = import.meta.env.VITE_BACKEND_URL
-        const response = await fetch(`${url}/login`,{
-            method:"POST",
-            headers:{
+        const response = await fetch(`${url}/login`, {
+            method: "POST",
+            headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         })
         const data = await response.json()
 
-        if(response.ok){
+        if (response.ok) {
             localStorage.setItem("token", data.token)
-            dispatch({type:"LOGIN", payload: data.token})
-            dispatch({type:"LOGIN_USER", payload:data.user})
+            dispatch({ type: "LOGIN", payload: data.token })
+            dispatch({ type: "LOGIN_USER", payload: data.user })
             console.log(store.user)
-            setTimeout(()=>{
-                navigate("/")
+            setTimeout(() => {
+                navigate("/menu")
             }, 2000)
-
         }
-        else if(response.status === 400){
+        else if (response.status === 400) {
             alert("credenciales incorrectas")
         }
-        else{
+        else {
             alert("error al iniciar sesion comunicate con soporte")
         }
-
-
     }
-    if(store.token){
-        return <Navigate to="/" />
+    if (store.token) {
+        return <Navigate to="/menu" />
     }
-    
 
-     return (
+    return (
         <div className="container">
             <div className="row justify-content-center my-5">
                 <h2 className="text-center my-3 fw-bold">Ingresar a la plataforma</h2>

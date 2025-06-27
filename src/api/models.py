@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, Text, Integer, Float, ForeignKey, Table, Column,Boolean
+from sqlalchemy import String, Text, Integer, Float, ForeignKey, Table, Column, Boolean
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import List
 
@@ -33,7 +33,6 @@ class Comment(db.Model):
     email: Mapped[str] = mapped_column(String(80), nullable=False)
     asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
-
 
 
 #Menú Pizzas
