@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-// Estado inicial para el formulario, es una excelente práctica.
+
 const initialState = {
     email: "",
     asunto: "",
