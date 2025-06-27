@@ -145,7 +145,7 @@ def get_single_pizza(pizza_id):
 
 #Funciones  que tendra el administrador del resto
 @api.route("/pizzas", methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def create_pizza():
     data = request.json
     if not data or not data.get('nombre') or not data.get('precio'):
@@ -171,7 +171,7 @@ def create_pizza():
     
 
 @api.route("/pizzas/<int:pizza_id>", methods=['DELETE'])
-# @jwt_required()
+@jwt_required()
 def delete_pizza(pizza_id):
     pizza = Pizza.query.get(pizza_id)
     if not pizza:
@@ -187,7 +187,7 @@ def delete_pizza(pizza_id):
     
     
 @api.route("/pizzas/<int:pizza_id>", methods=['PUT'])
-# @jwt_required()
+@jwt_required()
 def update_pizza(pizza_id):
     pizza = Pizza.query.get(pizza_id)
     if not pizza:

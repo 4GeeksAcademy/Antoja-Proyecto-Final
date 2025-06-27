@@ -148,3 +148,8 @@
   height: 40px;
   background-color: #3d8f99;
 }
+
+.imagenes-pizza{
+  height: 200px;
+  object-fit: cover;
+}
