@@ -8,12 +8,12 @@ const initialState = {
 };
 
 export const UpdateProducts = () => {
-    const params = useParams();
-    const pizzaId = params.pizzaId;
-    const navigate = useNavigate();
+    const params = useParams()
+    const pizzaId = params.pizzaId
+    const navigate = useNavigate()
 
-    const [pizzaData, setPizzaData] = useState(initialState);
-    const [loading, setLoading] = useState(true);
+    const [pizzaData, setPizzaData] = useState(initialState)
+    const [loading, setLoading] = useState(true)
 
 
     const handleChange = (event) => {
@@ -24,69 +24,69 @@ export const UpdateProducts = () => {
     };
 
     const fetchDatosPizza = async () => {
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
         try {
             const response = await fetch(`${backendUrl}/pizzas/${pizzaId}`);
             if (!response.ok)
-                return Error("No se encontró la pizza");
-            const data = await response.json();
-            setPizzaData(data);
+                return Error("No se encontró la pizza")
+            const data = await response.json()
+            setPizzaData(data)
         } catch (error) {
-            console.log("Error:", error);
+            console.log("Error:", error)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     };
     useEffect(() => {
-        fetchDatosPizza();
-    }, [pizzaId]);
+        fetchDatosPizza()
+    }, [pizzaId])
 
     const handleSubmit = async (event) => {
-    event.preventDefault();
-    const token = localStorage.getItem("token");
+        event.preventDefault();
+        const token = localStorage.getItem("token");
 
-    if (!token) {
-        alert("No estás autenticado. Por favor, inicia sesión.");
-        navigate('/login');
-        return; 
-    }
-
-    const datosActualizados = {
-        ...pizzaData,
-        precio: parseFloat(pizzaData.precio)
-    };
-
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-    try {
-        const response = await fetch(`${backendUrl}/pizzas/${pizzaId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify(datosActualizados)
-        });
-        if (response.ok) {
-            alert("Pizza actualizada con éxito!");
-            navigate('/menu');
-        } 
-
-        else {
-            return alert("Ocurrió un error al actualizar.");
+        if (!token) {
+            alert("No estás autenticado. Por favor, inicia sesión.")
+            navigate('/login')
+            return
         }
 
-    } catch (error) {
-        alert("Error de conexión. No se pudo guardar los cambios.");
-    }
-};
+        const datosActualizados = {
+            ...pizzaData,
+            precio: parseFloat(pizzaData.precio)
+        };
+
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
+
+        try {
+            const response = await fetch(`${backendUrl}/pizzas/${pizzaId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(datosActualizados)
+            });
+            if (response.ok) {
+                alert("Pizza actualizada con éxito!")
+                navigate('/menu')
+            }
+
+            else {
+                return alert("Ocurrió un error al actualizar.")
+            }
+
+        } catch (error) {
+            alert("Error de conexión. No se pudo guardar los cambios.")
+        }
+    };
 
 
     if (loading) {
-        return <div className="d-flex justify-content-center align-items-center">
+        return <div className="text-center mt-5">
             <div className="spinner-border text-warning" role="status">
                 <span className="visually-hidden">Cargando...</span>
-            </div>
+            </div><p className="mt-2">Cargando...</p>
         </div>;
     }
 

@@ -3,40 +3,42 @@ import useGlobalReducer from "../hooks/useGlobalReducer";
 import { Link } from "react-router-dom";
 
 export const Menu = () => {
-    const [pizzas, setPizzas] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const { store } = useGlobalReducer();
+    const [pizzas, setPizzas] = useState([])
+
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
+    
+    const { store } = useGlobalReducer()
 
     const fetchPizzas = async () => {
         try {
-            const backendUrl = import.meta.env.VITE_BACKEND_URL;
-            const response = await fetch(`${backendUrl}/pizzas`);
+            const backendUrl = import.meta.env.VITE_BACKEND_URL
+            const response = await fetch(`${backendUrl}/pizzas`)
             if (!response.ok) {
-                return Error(`HTTP error! status: ${response.status}`);
+                return Error(`HTTP error! status: ${response.status}`)
             }
-            const data = await response.json();
-            setPizzas(data);
+            const data = await response.json()
+            setPizzas(data)
         } catch (error) {
-            setError(error.message);
+            setError(error.message)
         } finally {
-            setLoading(false);
+            setLoading(false)
         }
     };
 
     useEffect(() => {
-        fetchPizzas();
+        fetchPizzas()
     }, []);
 
     const handleDelete = async (idDeLaPizza) => {
-        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta pizza?");
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta pizza?")
 
         if (!confirmado) {
             return;
         }
 
-        const token = localStorage.getItem("token");
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const token = localStorage.getItem("token")
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
 
         try {
             const response = await fetch(`${backendUrl}/pizzas/${idDeLaPizza}`, {
@@ -47,15 +49,15 @@ export const Menu = () => {
             });
 
             if (response.ok) {
-                alert("Pizza eliminada correctamente");
-                setPizzas(pizzas.filter(pizza => pizza.id !== idDeLaPizza));
+                alert("Pizza eliminada correctamente")
+                setPizzas(pizzas.filter(pizza => pizza.id !== idDeLaPizza))
 
             } else {
-                alert("Error: No se pudo eliminar la pizza.");
+                alert("Error: No se pudo eliminar la pizza.")
             }
 
         } catch (error) {
-            alert("Error de conexión con el servidor.");
+            alert("Error de conexión con el servidor.")
         }
     };
 

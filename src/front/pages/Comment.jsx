@@ -6,12 +6,12 @@ const initialState = {
     email: "",
     asunto: "",
     comment: ""
-};
+}
 
 export const Comment = () => {
-    const [comment, setComment] = useState(initialState);
+    const [comment, setComment] = useState(initialState)
 
-    const [message, setMessage] = useState(null);
+    const [message, setMessage] = useState(null)
 
 
     const handleChange = (event) => {
@@ -22,34 +22,34 @@ export const Comment = () => {
         });
     };
     const handleOnSubmit = async (event) => {
-        event.preventDefault();
-        setMessage(null);
+        event.preventDefault()
+        setMessage(null)
 
         if (!comment.email || !comment.asunto || !comment.comment) {
-            setMessage({ type: 'danger', text: 'Por favor, completa todos los campos.' });
-            return;
+            setMessage({ type: 'danger', text: 'Por favor, completa todos los campos.' })
+            return
         }
 
-        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const backendUrl = import.meta.env.VITE_BACKEND_URL
 
         try {
             const response = await fetch(`${backendUrl}/comment`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(comment)
-            });
+            })
 
-            const data = await response.json();
+            const data = await response.json()
 
             if (response.ok) {
-                setMessage({ type: 'success', text: data.message || "¡Gracias por tu comentario!" });
-                setComment(initialState);
-                return Error(data.message || `Error del servidor: ${response.status}`);
+                setMessage({ type: 'success', text: data.message || "¡Gracias por tu comentario!" })
+                setComment(initialState)
+                return Error(data.message || `Error del servidor: ${response.status}`)
             }
         } catch (error) {
             setMessage({ type: 'danger', text: error.message || "No se pudo enviar el comentario. Inténtalo de nuevo." });
         }
-    };
+    }
 
     return (
         <div className="container">
@@ -121,11 +121,11 @@ export const Comment = () => {
                                 required
                             ></textarea>
                         </div>
-                        {message && (
+                        {message ? (
                             <div className={`alert alert-${message.type} mt-3`} role="alert">
                                 {message.text}
                             </div>
-                        )}
+                        ) : null}
                         <div className="d-flex justify-content-end mt-4">
                             <button type="submit" className="btn btn-light">
                                 Enviar
