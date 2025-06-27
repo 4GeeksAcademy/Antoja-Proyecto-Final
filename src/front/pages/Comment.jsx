@@ -1,46 +1,55 @@
 
 import { useState } from "react";
 
-
+// Estado inicial para el formulario, es una excelente práctica.
 const initialState = {
     email: "",
     asunto: "",
     comment: ""
-}
+};
 
 export const Comment = () => {
-    const [comment, setComment] = useState(initialState)
+    const [comment, setComment] = useState(initialState);
+
+    const [message, setMessage] = useState(null);
+
 
     const handleChange = (event) => {
+        setMessage(null);
         setComment({
             ...comment,
             [event.target.name]: event.target.value
-        })
-    }
-
+        });
+    };
     const handleOnSubmit = async (event) => {
-        event.preventDefault()
-        const backendUrl = import.meta.env.VITE_BACKEND_URL
+        event.preventDefault();
+        setMessage(null);
 
-        const response = await fetch(`${backendUrl}/comment`,
-            {
+        if (!comment.email || !comment.asunto || !comment.comment) {
+            setMessage({ type: 'danger', text: 'Por favor, completa todos los campos.' });
+            return;
+        }
+
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
+        try {
+            const response = await fetch(`${backendUrl}/comment`, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(comment)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setMessage({ type: 'success', text: data.message || "¡Gracias por tu comentario!" });
+                setComment(initialState);
+                return Error(data.message || `Error del servidor: ${response.status}`);
             }
-        )
-        if (response.ok) {
-            setComment(initialState)
+        } catch (error) {
+            setMessage({ type: 'danger', text: error.message || "No se pudo enviar el comentario. Inténtalo de nuevo." });
         }
-        else if (response.status === 400) {
-            alert("Necesitas un email de contacto, asunto y tu comentario")
-        }
-        else {
-            alert("Hubo un error al registrar tu comentario")
-        }
-    }
+    };
 
     return (
         <div className="container">
@@ -52,67 +61,36 @@ export const Comment = () => {
                     </p>
                     <div className="row g-4">
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3">
-                                <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
-                                    <i className="fa-solid fa-envelope text-white fs-5"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <h5 className="mb-1 fw-bold">Email</h5>
-                                <p className="text-muted mb-0">hello@antoja.com</p>
-                            </div>
-                        </div>
-
-
-                        <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3">
-                                <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
-                                    <i className="fa-solid fa-globe text-white fs-5"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <h5 className="mb-1 fw-bold">Sitio</h5>
-                                <p className="text-muted mb-0">antoja.com</p>
-                            </div>
-                        </div>
-
-
-                        <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3">
-                                <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
-                                    <i className="fa-solid fa-phone text-white fs-5"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <h5 className="mb-1 fw-bold">Telefóno</h5>
-                                <p className="text-muted mb-0">+123-456-7890</p>
-                            </div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-envelope text-white fs-5"></i></span></div>
+                            <div><h5 className="mb-1 fw-bold">Email</h5><p className="text-muted mb-0">hello@antoja.com</p></div>
                         </div>
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3">
-                                <span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
-                                    <i className="fa-solid fa-location-dot text-white fs-5"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <h5 className="mb-1 fw-bold">Ubicacion</h5>
-                                <p className="text-muted mb-0">Julio Pinto 123</p>
-                            </div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-globe text-white fs-5"></i></span></div>
+                            <div><h5 className="mb-1 fw-bold">Sitio</h5><p className="text-muted mb-0">antoja.com</p></div>
+                        </div>
+                        <div className="col-md-6 d-flex align-items-start">
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-phone text-white fs-5"></i></span></div>
+                            <div><h5 className="mb-1 fw-bold">Telefóno</h5><p className="text-muted mb-0">+123-456-7890</p></div>
+                        </div>
+                        <div className="col-md-6 d-flex align-items-start">
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-location-dot text-white fs-5"></i></span></div>
+                            <div><h5 className="mb-1 fw-bold">Ubicacion</h5><p className="text-muted mb-0">Julio Pinto 123</p></div>
                         </div>
                     </div>
                 </div>
                 <div className="col-md-6 border rounded-4 py-4 bg-dark">
-                    <form onSubmit={handleOnSubmit}>
+                    <form onSubmit={handleOnSubmit} className="p-3">
                         <div className="mb-3">
-                            <label htmlFor="exampleFormControlInput1" className="form-label text-light">Email</label>
+                            <label htmlFor="email" className="form-label text-light">Email</label>
                             <input
                                 type="email"
                                 className="form-control"
-                                id="exampleFormControlInput1"
+                                id="email"
                                 placeholder="nombre@ejemplo.com"
                                 name="email"
                                 onChange={handleChange}
                                 value={comment.email}
+                                required
                             />
                         </div>
                         <label htmlFor="selectAsunto" className="form-label text-light">Asunto</label>
@@ -123,6 +101,7 @@ export const Comment = () => {
                             onChange={handleChange}
                             name="asunto"
                             value={comment.asunto}
+                            required
                         >
                             <option value="">¿Cuál es el asunto?</option>
                             <option value="reserva">Reserva</option>
@@ -131,21 +110,24 @@ export const Comment = () => {
                             <option value="otros">Otros</option>
                         </select>
                         <div className="mb-3">
-                            <label htmlFor="exampleFormControlTextarea1" className="form-label text-light">Comentarios</label>
+                            <label htmlFor="comment" className="form-label text-light">Comentarios</label>
                             <textarea
                                 className="form-control"
-                                id="exampleFormControlTextarea1"
+                                id="comment"
                                 rows="6"
                                 name="comment"
                                 onChange={handleChange}
                                 value={comment.comment}
-                            >
-                            </textarea>
+                                required
+                            ></textarea>
                         </div>
-                        <div className="d-flex justify-content-end">
-                            <button
-                                className="btn btn-light"
-                            >
+                        {message && (
+                            <div className={`alert alert-${message.type} mt-3`} role="alert">
+                                {message.text}
+                            </div>
+                        )}
+                        <div className="d-flex justify-content-end mt-4">
+                            <button type="submit" className="btn btn-light">
                                 Enviar
                             </button>
                         </div>
