@@ -13,11 +13,10 @@ export const Register = () => {
     const navigate = useNavigate()
 
     const handleChange = ({ target }) => {
-    const value = target.type === "checkbox" ? target.checked : target.value;
 
     setUser(prevUser => ({
         ...prevUser,
-        [target.name]: value
+        [target.name]: target.value
     }));
 };
 
@@ -87,18 +86,7 @@ export const Register = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group mb-3 text-light">
-                            <label htmlFor="btnToggle" className="form-check-label"> Admim </label>
-                            <input 
-                            type="checkbox"
-                            name="is_admin"
-                            className="form-check-input ms-3 mt-1"
-                            id="btnToggle"
-                            checked={user.is_admin}
-                            onChange={handleChange} />
-
-
-                        </div>
+                        
                         <button className="btn btn-outline-light w-100">
                             Registrar
 
