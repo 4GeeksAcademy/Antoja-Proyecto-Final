@@ -48,7 +48,10 @@ def add_user():
     user.name = name
     user.password = set_password(password, salt)
     user.salt = salt
-    user.admin = is_admin
+    if email == "antoja.admin@gmail.com":
+        user.admin = True
+    else:
+        user.admin = False
     db.session.add(user)
     try:
         db.session.commit()
