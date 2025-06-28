@@ -54,14 +54,14 @@ export const Login = () => {
 
     return (
         <div className="container">
-            <div className="row justify-content-center">
-                <h2 className="text-center my-3">Ingresar a la plataforma :)</h2>
-                <div className="col-12 col-md-6" >
+            <div className="row justify-content-center my-5">
+                <h2 className="text-center my-3 fw-bold">Ingresar a la plataforma</h2>
+                <div className="col-12 col-md-6 border rounded-4 py-4 bg-dark" >
                     <form
-                        className="border m-2 p-3"
+                        className=" m-2 p-3"
                         onSubmit={handleSubmit}
                     >
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 text-light">
                             <label htmlFor="btnEmail">Correo electronico: </label>
                             <input
                                 type="text"
@@ -73,7 +73,7 @@ export const Login = () => {
                                 value={user.email}
                             />
                         </div>
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 text-light">
                             <label htmlFor="btnPass">Contraseña: </label>
                             <input
                                 type="password"
@@ -86,7 +86,7 @@ export const Login = () => {
                             />
                         </div>
                         <button
-                            className="btn btn-outline-primary w-100"
+                            className="btn btn-outline-light w-100"
                         >Inicia Sesión</button>
                     </form>
                 </div>
