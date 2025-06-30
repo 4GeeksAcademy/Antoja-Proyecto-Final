@@ -7,7 +7,7 @@ export const Menu = () => {
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    
+
     const { store } = useGlobalReducer()
 
     const fetchPizzas = async () => {
@@ -62,11 +62,11 @@ export const Menu = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-5">
-            <div className="spinner-border text-dark" role="status">
-                <span className="visually-hidden">Cargando...</span>
-            </div><p className="mt-2">Cargando...</p>
-        </div>;
+        return (<div className="text-center mt-5">
+                    <div className="spinner-border text-dark" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </div><p className="mt-2">Cargando...</p>
+                </div>);
     }
 
     if (error) {
@@ -92,7 +92,7 @@ export const Menu = () => {
                                 <div className="card-body d-flex flex-column">
                                     <h5 className="card-title">{pizza.nombre}</h5>
                                     <p className="card-text text-muted small flex-grow-1">
-                                        {pizza.ingredientes.map(ing => ing.nombre).join(', ')}
+                                        {pizza.descripcion}
                                     </p>
                                     <p className="h5 fw-bold text-dark mb-0">${pizza.precio.toFixed(0)}</p>
                                 </div>
@@ -119,7 +119,7 @@ export const Menu = () => {
                             <div className="card-body d-flex flex-column">
                                 <h5 className="card-title">{pizza.nombre}</h5>
                                 <p className="card-text text-muted small flex-grow-1">
-                                    {pizza.ingredientes.map(ing => ing.nombre).join(', ')}
+                                    {pizza.descripcion}
                                 </p>
                                 <div className="d-flex justify-content-between align-items-center mt-2">
                                     <p className="h5 fw-bold text-dark mb-0">${pizza.precio.toFixed(0)}</p>

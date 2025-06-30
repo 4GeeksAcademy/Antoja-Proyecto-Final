@@ -5,10 +5,6 @@ from typing import List
 
 db = SQLAlchemy()
 
-pizza_ingrediente = Table('pizza_ingrediente', db.metadata,
-    Column('pizza_id', Integer, ForeignKey('pizzas.id', ondelete="CASCADE"), primary_key=True),
-    Column('ingrediente_id', Integer, ForeignKey('ingredientes.id', ondelete="CASCADE"), primary_key=True)
-)
 
 class User(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -46,12 +42,8 @@ class Pizza(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     imagen_public_id: Mapped[str] = mapped_column(String(255), nullable=True)
     categoria: Mapped[str] = mapped_column(String(50), nullable=False, default="Pizza")
+    descripcion: Mapped[str] = mapped_column(Text, nullable=True)
 
-    
-    ingredientes: Mapped[List["Ingrediente"]] = relationship(
-        secondary=pizza_ingrediente,
-        back_populates="pizzas"
-    )
 
     def serialize(self):
         return {
@@ -60,22 +52,6 @@ class Pizza(db.Model):
             "precio": self.precio,
             "imagen_url": self.imagen_url,
             "categoria": self.categoria,
-            "ingredientes": [ing.serialize() for ing in self.ingredientes]
+            "descripcion": self.descripcion
         }
 
-class Ingrediente(db.Model):
-    __tablename__ = "ingredientes"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    nombre: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
-
-    pizzas: Mapped[List["Pizza"]] = relationship(
-        secondary=pizza_ingrediente,
-        back_populates="ingredientes"
-    )
-    
-    def serialize(self):
-        return {
-            "id": self.id,
-            "nombre": self.nombre
-        }
