@@ -3,7 +3,7 @@ import logo from "../assets/img/Revised.png"
 
 export const Footer = () => {
 	return (
-		<div className="container-footer p-2 ">
+		<div className="container-fluid container-footer p-2 ">
 			<div className="row col-12">
 				<div className="text-center mt-1 text-dark">
 					<h2>Contáctanos</h2>

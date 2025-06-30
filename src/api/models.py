@@ -30,7 +30,6 @@ class Comment(db.Model):
     asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 
-
 #Menú Pizzas
 class Pizza(db.Model):
     __tablename__ = "pizzas"

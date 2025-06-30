@@ -1,3 +1,10 @@
+
+.container-photos{
+  background-color: white;
+}
+.container-ubication{
+  background-color: white;
+}
 .icons-navbar {
   height: 150px;
   display: flex;
