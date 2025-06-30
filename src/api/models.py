@@ -44,6 +44,7 @@ class Pizza(db.Model):
     nombre: Mapped[str] = mapped_column(String(80), unique=True, nullable=False)
     precio: Mapped[int] = mapped_column(Integer, nullable=False)
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
+    imagen_public_id: Mapped[str] = mapped_column(String(255), nullable=True)
     categoria: Mapped[str] = mapped_column(String(50), nullable=False, default="Pizza")
 
     
