@@ -2,13 +2,15 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Comment, Pizza, Ingrediente, Order, OrderPizza
+from api.models import db, User, Comment, Pizza, Order, OrderPizza
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 import os
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+from sqlalchemy import func
+import cloudinary.uploader as uploader
 
 api = Blueprint('api', __name__)
 
@@ -149,21 +151,35 @@ def get_single_pizza(pizza_id):
 
 
 #Funciones  que tendra el administrador del resto
-@api.route("/pizzas", methods=['POST'])
-@jwt_required()
+@api.route("/pizzas", methods=["POST"])
+# @jwt_required()
 def create_pizza():
-    data = request.json
-    if not data or not data.get('nombre') or not data.get('precio'):
-        return jsonify({"message": "Faltan datos: 'nombre' y 'precio' son requeridos"}), 400
-    ingrediente_ids = data.get('ingrediente_ids', [])
-    ingredientes_obj = Ingrediente.query.filter(Ingrediente.id.in_(ingrediente_ids)).all()
+    data_form = request.form
+    data_files = request.files
 
+    if "nombre" not in data_form or "precio" not in data_form:
+        return jsonify({"message": "Faltan datos: 'nombre' y 'precio' son requeridos"}), 400
+    
+    if "imagen" not in data_files:
+        return jsonify({"message": "Falta el archivo de la imagen"}), 400
+
+    nombre = data_form.get("nombre")
+    precio = data_form.get("precio")
+    imagen_file = data_files["imagen"]
+
+    try:
+        upload_result = uploader.upload(imagen_file, folder="pizzas")
+    except Exception as error:
+        return jsonify({"message": "Error al subir la imagen", "error": str(error)}), 500
+
+        
     pizza_nueva = Pizza(
-        nombre=data["nombre"],
-        precio=data["precio"],
-        imagen_url=data.get("imagen_url"),
-        categoria=data.get("categoria", "Pizza"),
-        ingredientes=ingredientes_obj
+        nombre=nombre,
+        precio=int(precio),
+        imagen_url=upload_result.get("secure_url"),
+        imagen_public_id=upload_result.get("public_id"),
+        categoria=data_form.get("categoria", "Pizza"),
+        descripcion=data_form.get("descripcion")
     )
 
     db.session.add(pizza_nueva)
@@ -172,7 +188,8 @@ def create_pizza():
         return jsonify(pizza_nueva.serialize()), 201
     except Exception as error:
         db.session.rollback()
-        return jsonify({"message": f"Error al crear la pizza: {error.args}"}), 500
+        uploader.destroy(upload_result.get("public_id"))
+        return jsonify({"message": f"Error al guardar en la base de datos: {error.args}"}), 500
     
 
 @api.route("/pizzas/<int:pizza_id>", methods=['DELETE'])
@@ -191,28 +208,40 @@ def delete_pizza(pizza_id):
         return jsonify({"message": f"Error al eliminar la pizza: {error.args}"}), 500
     
     
-@api.route("/pizzas/<int:pizza_id>", methods=['PUT'])
+
+
+@api.route("/pizzas/<int:pizza_id>", methods=["PUT"])
 @jwt_required()
 def update_pizza(pizza_id):
     pizza = Pizza.query.get(pizza_id)
     if not pizza:
         return jsonify({"message": "Pizza no encontrada"}), 404
 
-    data = request.json
-    if not data:
-        return jsonify({"message": "No se recibieron datos para actualizar"}), 400
+    data_form = request.form
+    data_files = request.files
 
+    pizza.nombre = data_form.get("nombre", pizza.nombre)
+    pizza.precio = int(data_form.get("precio", pizza.precio))
+    pizza.categoria = data_form.get("categoria", pizza.categoria)
+    pizza.descripcion = data_form.get("descripcion", pizza.descripcion)
 
-    pizza.nombre = data.get("nombre", pizza.nombre)
-    pizza.precio = data.get("precio", pizza.precio)
-    pizza.imagen_url = data.get("imagen_url", pizza.imagen_url)
-    pizza.categoria = data.get("categoria", pizza.categoria)
+    if "imagen" in data_files and data_files["imagen"].filename != "":
+        nueva_imagen_file = data_files["imagen"]
+        public_id_antiguo = pizza.imagen_public_id
 
+        try:
+            upload_result = uploader.upload(nueva_imagen_file, folder="pizzas")
 
-    if "ingrediente_ids" in data:
-        ingrediente_ids = data["ingrediente_ids"]
-        nuevos_ingredientes_obj = Ingrediente.query.filter(Ingrediente.id.in_(ingrediente_ids)).all()
-        pizza.ingredientes = nuevos_ingredientes_obj
+            pizza.imagen_url = upload_result.get("secure_url")
+            pizza.imagen_public_id = upload_result.get("public_id")
+            
+            if public_id_antiguo:
+                uploader.destroy(public_id_antiguo)
+
+        except Exception as error:
+            return jsonify({"message": "Error al actualizar la imagen en Cloudinary", "error": str(error)}), 500
+
+    
     try:
         db.session.commit()
         return jsonify(pizza.serialize()), 200

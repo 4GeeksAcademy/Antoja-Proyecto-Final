@@ -7,8 +7,40 @@ export const Menu = () => {
 
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
-    
-    const { store } = useGlobalReducer()
+    const [cantidades, setCantidades] = useState({})
+
+    const { store, dispatch } = useGlobalReducer()
+
+    const handleAddToPizza = (pizza) => {
+        const cantidad = cantidades[pizza.id] || 0;
+        if (cantidad === 0) {
+            alert("Selecciona al menos una unidad");
+            return;
+        }
+        dispatch({
+            type: "ADD_CARRITO",
+            payload: {
+                ...pizza,
+                cantidad: cantidades[pizza.id]
+            }
+        })
+    }
+
+    const aumentarCantidad = (id) => {
+        setCantidades((cantidadAnterior) => {
+            const cantidadActual = cantidadAnterior[id] || 0;
+            if (cantidadActual < 5) return { ...cantidadAnterior, [id]: cantidadActual + 1 };
+            return cantidadAnterior;
+        })
+    }
+
+    const disminuirCantidad = (id) => {
+        setCantidades((cantidadAnterior) => {
+            const cantidadActual = cantidadAnterior[id] || 0;
+            if (cantidadActual > 0) return { ...cantidadAnterior, [id]: cantidadActual - 1 };
+            return cantidadAnterior;
+        })
+    }
 
     const fetchPizzas = async () => {
         try {
@@ -62,11 +94,11 @@ export const Menu = () => {
     };
 
     if (loading) {
-        return <div className="text-center mt-5">
-            <div className="spinner-border text-dark" role="status">
-                <span className="visually-hidden">Cargando...</span>
-            </div><p className="mt-2">Cargando...</p>
-        </div>;
+        return (<div className="text-center mt-5">
+                    <div className="spinner-border text-dark" role="status">
+                        <span className="visually-hidden">Cargando...</span>
+                    </div><p className="mt-2">Cargando...</p>
+                </div>);
     }
 
     if (error) {
@@ -77,14 +109,14 @@ export const Menu = () => {
 
     return (
         store.user.is_admin ? (
-            <div className="container my-4">
+            <div className="container-menu my-4">
                 <h1 className="text-center mb-4">Menú Administrador</h1>
                 <div className="text-center mb-5">
                     <Link to="/crear-producto" className="btn btn-outline-dark btn-lg">
                         <i class="fa-solid fa-plus"></i> Nueva Pizza
                     </Link>
                 </div>
-                <div className="row g-4">
+                <div className="row g-4 cont-pizza">
                     {pizzas.map((pizza) => (
                         <div key={pizza.id} className="col-12 col-md-6 col-lg-4">
                             <div className="card h-100">
@@ -92,7 +124,7 @@ export const Menu = () => {
                                 <div className="card-body d-flex flex-column">
                                     <h5 className="card-title">{pizza.nombre}</h5>
                                     <p className="card-text text-muted small flex-grow-1">
-                                        {pizza.ingredientes.map(ing => ing.nombre).join(', ')}
+                                        {pizza.descripcion}
                                     </p>
                                     <p className="h5 fw-bold text-dark mb-0">${pizza.precio.toFixed(0)}</p>
                                 </div>
@@ -119,15 +151,21 @@ export const Menu = () => {
                             <div className="card-body d-flex flex-column">
                                 <h5 className="card-title">{pizza.nombre}</h5>
                                 <p className="card-text text-muted small flex-grow-1">
-                                    {pizza.ingredientes.map(ing => ing.nombre).join(', ')}
+                                    {pizza.descripcion}
                                 </p>
                                 <div className="d-flex justify-content-between align-items-center mt-2">
                                     <p className="h5 fw-bold text-dark mb-0">${pizza.precio.toFixed(0)}</p>
-                                    <button className="btn btn-outline-dark fw-bold">Añadir</button>
+                                    <div className="d-flex align-items-center gap-2">
+                                        <button className="btn btn-outline-dark" onClick={() => disminuirCantidad(pizza.id)}
+                                            disabled={(cantidades[pizza.id] || 0) === 0}> - </button>
+                                        <span>{cantidades[pizza.id] || 0}</span>
+                                        <button className="btn btn-outline-dark" onClick={() => aumentarCantidad(pizza.id)}
+                                            disabled={(cantidades[pizza.id] || 0) === 5}> + </button>
+                                    </div>
+                                    <button className="btn btn-outline-dark fw-bold" onClick={() => handleAddToPizza(pizza)}>Añadir</button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 ))}
             </div>
