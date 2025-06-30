@@ -13,7 +13,7 @@ export const CrearProductos = () => {
 
     const [pizzaData, setPizzaData] = useState(initialState)
     const [imagenFile, setImagenFile] = useState(null)
-    const [loading, setLoading] = useState(true)
+    
 
 
 
