@@ -7,12 +7,14 @@ db = SQLAlchemy()
 
 
 class User(db.Model):
+    __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     password: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column(String(100))
     salt: Mapped[str] = mapped_column(String(200),nullable=False, default=1)
     admin:Mapped[bool] = mapped_column(Boolean, default=False)
+    orders: Mapped[List["Order"]] = relationship(back_populates="user")
 
     def serialize(self):
         return {
@@ -40,6 +42,8 @@ class Pizza(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     imagen_public_id: Mapped[str] = mapped_column(String(255), nullable=True)
     categoria: Mapped[str] = mapped_column(String(50), nullable=False, default="Pizza")
+    orders: Mapped[List["OrderPizza"]] = relationship(back_populates="pizza")
+
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
 
 
@@ -53,3 +57,23 @@ class Pizza(db.Model):
             "descripcion": self.descripcion
         }
 
+
+    
+class OrderPizza(db.Model):
+    __tablename__ = "order_pizza"
+    order_id:Mapped[int] = db.Column(db.Integer, db.ForeignKey("orders.id"), primary_key=True)
+    pizza_id:Mapped[int] = db.Column(db.Integer, db.ForeignKey("pizzas.id"), primary_key=True)
+    quantity:Mapped[int] = db.Column(db.Integer, nullable=False, default=1)
+
+    order: Mapped["Order"] = relationship(back_populates="pizzas")
+    pizza: Mapped["Pizza"] = relationship(back_populates="orders")
+
+class Order(db.Model):
+    __tablename__ = "orders"
+    id:Mapped[int] = db.Column(db.Integer, primary_key=True)
+    user_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), nullable=False)
+    total_price:Mapped[float] = db.Column(db.Float, nullable=False)
+
+    user: Mapped["User"] = relationship(back_populates="orders")
+
+    pizzas: Mapped[List["OrderPizza"]] = relationship(back_populates="order", cascade="all, delete-orphan")
