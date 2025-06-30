@@ -40,15 +40,20 @@ def add_user():
     name=data.get("name", None)
     is_admin= data.get("is_admin", False)
     salt = b64encode(os.urandom(32)).decode("utf-8")
-    if email is None or password is None or name is None :
-        return jsonify("necesitas completar el email, password y su nombre completo"), 400
+    if not email or not password or not name :
+        return jsonify({"mensaje":"necesitas completar el email, password y su nombre completo"}), 400
+    elif(User().query.filter_by(email=email).one_or_none() is not None):
+        return jsonify({"mensaje": "este mail ya esta registrado, intento con algun otro"}), 400
     
     user = User()
     user.email = email
     user.name = name
     user.password = set_password(password, salt)
     user.salt = salt
-    user.admin = is_admin
+    if email == "antoja.admin@gmail.com":
+        user.admin = True
+    else:
+        user.admin = False
     db.session.add(user)
     try:
         db.session.commit()

@@ -20,8 +20,8 @@ export const initialStore=()=>{
       name:"",
       email:"",
       is_admin:false
-    }
-
+    },
+    carrito: []
 
   }
 }
@@ -64,8 +64,21 @@ export default function storeReducer(store, action = {}) {
         ...store,
         user: action.payload
       }
-    
-
+    case "ADD_CARRITO":
+      return{
+        ...store,
+        carrito: [...store.carrito, action.payload]
+      }
+    case "DELETE_PRODUCT":
+      return{
+        ...store,
+        carrito: store.carrito.filter((item) => item.id !== action.payload)
+      }
+    case "CLEAR_All":
+      return{
+        ...store,
+        carrito: []
+      }
         
     default:
       throw Error('Unknown action.');

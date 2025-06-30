@@ -6,6 +6,16 @@
 .file-navbar {
   background-color: rgb(170, 217, 233);
 }
+.contenedor-link-navbar{
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 2px;
+  margin-left: auto;
+}
+.place-order{
+  background-color: rgb(170, 217, 233);
+}
 .container-photo {
   background-image: url("./assets/img/Portada.jpeg");
   background-size: cover;

@@ -13,11 +13,10 @@ export const Register = () => {
     const navigate = useNavigate()
 
     const handleChange = ({ target }) => {
-    const value = target.type === "checkbox" ? target.checked : target.value;
 
     setUser(prevUser => ({
         ...prevUser,
-        [target.name]: value
+        [target.name]: target.value
     }));
 };
 
@@ -31,6 +30,7 @@ export const Register = () => {
             },
             body: JSON.stringify(user)
         })
+        const data = await response.json(); 
         if(response.status === 201){
             console.log(user)
             setUser(initialStateUser)
@@ -39,7 +39,7 @@ export const Register = () => {
             }, 2000)
         }
         else if(response.status === 400){
-            alert("falta algun valor para crear el usuario, por favor completa el formulario")
+            alert(data.mensaje)
         } else{
             alert("Error al registrar el usuario")
         }
@@ -47,12 +47,12 @@ export const Register = () => {
     }
     return (
         <div className="container">
-            <div className="row justify-content-center">
+            <div className="row justify-content-center my-5">
                 <h2 className="text-center my-3">Registrate para continuar</h2>
-                <div className="col-12 col-md-6">
-                    <form className="border m-2 p-3" onSubmit={handleSubmit}>
-                        <div className="form-group mb-3">
-                            <label htmlFor="btnName">Nombre:</label>
+                <div className="col-12 col-md-6 rounded-4 py-4 bg-dark">
+                    <form className=" m-2 p-3" onSubmit={handleSubmit}>
+                        <div className="form-group mb-3 text-light">
+                            <label htmlFor="btnName ">Nombre:</label>
                             <input type="text"
                             placeholder="Jhon"
                             className="form-control"
@@ -63,7 +63,7 @@ export const Register = () => {
                             />
                         </div>
                        
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 text-light">
                             <label htmlFor="btnEmail">Correo electronico</label>
                             <input
                             type="text"
@@ -75,7 +75,7 @@ export const Register = () => {
                             />
 
                         </div>
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 text-light">
                             <label htmlFor="btnPass">Contraseña: </label>
                             <input
                                 type="password"
@@ -86,19 +86,8 @@ export const Register = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group mb-3">
-                            <label htmlFor="btnToggle" className="form-check-label"> Admim </label>
-                            <input 
-                            type="checkbox"
-                            name="is_admin"
-                            className="form-check-input ms-3 mt-1"
-                            id="btnToggle"
-                            checked={user.is_admin}
-                            onChange={handleChange} />
-
-
-                        </div>
-                        <button className="btn btn-outline-primary w-100">
+                        
+                        <button className="btn btn-outline-light w-100">
                             Registrar
 
                         </button>
