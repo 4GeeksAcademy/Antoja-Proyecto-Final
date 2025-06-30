@@ -11,7 +11,6 @@ const initialState = {
 
 export const Comment = () => {
     const [comment, setComment] = useState(initialState)
-
     const [message, setMessage] = useState(null)
 
 
@@ -62,19 +61,23 @@ export const Comment = () => {
                     </p>
                     <div className="row g-4">
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-envelope text-white fs-5"></i></span></div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
+                                <i className="fa-solid fa-envelope text-white fs-5"></i></span></div>
                             <div><h5 className="mb-1 fw-bold">Email</h5><p className="text-muted mb-0">hello@antoja.com</p></div>
                         </div>
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-globe text-white fs-5"></i></span></div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
+                                <i className="fa-solid fa-globe text-white fs-5"></i></span></div>
                             <div><h5 className="mb-1 fw-bold">Sitio</h5><p className="text-muted mb-0">antoja.com</p></div>
                         </div>
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-phone text-white fs-5"></i></span></div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
+                                <i className="fa-solid fa-phone text-white fs-5"></i></span></div>
                             <div><h5 className="mb-1 fw-bold">Telefóno</h5><p className="text-muted mb-0">+123-456-7890</p></div>
                         </div>
                         <div className="col-md-6 d-flex align-items-start">
-                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones"><i className="fa-solid fa-location-dot text-white fs-5"></i></span></div>
+                            <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
+                                <i className="fa-solid fa-location-dot text-white fs-5"></i></span></div>
                             <div><h5 className="mb-1 fw-bold">Ubicacion</h5><p className="text-muted mb-0">Julio Pinto 123</p></div>
                         </div>
                     </div>
