@@ -34,7 +34,6 @@ class Comment(db.Model):
     asunto : Mapped[str] = mapped_column(String(50), nullable = False)
     comment: Mapped[str] = mapped_column(Text, nullable = False)
 
-
 #Menú Pizzas
 class Pizza(db.Model):
     __tablename__ = "pizzas"
@@ -45,7 +44,6 @@ class Pizza(db.Model):
     imagen_url: Mapped[str] = mapped_column(String(255), nullable=True)
     categoria: Mapped[str] = mapped_column(String(50), nullable=False, default="Pizza")
 
-    
     ingredientes: Mapped[List["Ingrediente"]] = relationship(
         secondary=pizza_ingrediente,
         back_populates="pizzas"

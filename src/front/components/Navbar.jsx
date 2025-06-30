@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import useGlobalReducer from "../hooks/useGlobalReducer"
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/img/Revised.png"
 
 export const Navbar = () => {
 	const { store, dispatch } = useGlobalReducer()
+	const navigate = useNavigate()
 
 	const deleteProduct = (id) => {
 		console.log(id)
@@ -54,7 +56,7 @@ export const Navbar = () => {
 														key={index}
 														className="d-flex justify-content-between align-items-center px-2"
 													>
-														<span className="text-dark">{item.nombre}</span>
+														<span className="text-dark">{item.nombre} x {item.cantidad}</span>
 														<button
 															type="button"
 															className="btn btn-transparent text-dark"
@@ -73,12 +75,10 @@ export const Navbar = () => {
 													type="button"
 													className="btn place-order btn.sm"
 													onClick={() => {
-														alert("Pedido exitoso. ¡Estamos preparando tu envío!");
-														dispatch({ type: "CLEAR_All" });
+														navigate("/carrito");
 													}}>
 													Realizar pedido
 												</button>
-
 											</li>
 										)}
 									</ul>
