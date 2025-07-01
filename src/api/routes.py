@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Comment, Pizza
+from api.models import db, User, Comment, Pizza, Order, OrderPizza
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -91,7 +91,6 @@ def handle_login():
 @api.route("/users" , methods=["GET"])
 @jwt_required()
 def get_all_users():
-
     users=User.query.all()
     return jsonify(list(map(lambda item: item.serialize(), users))), 200
 
@@ -248,4 +247,52 @@ def update_pizza(pizza_id):
     except Exception as error:
         db.session.rollback()
         return jsonify({"message": f"Error al actualizar la pizza: {error.args}"}), 500
+
+@api.route("/orders", methods=["POST"])
+def crear_orden():
+    data = request.get_json()
+    user_id = data.get("user_id")
+    items = data.get("items", [])
+
+    if not user_id or not items:
+        return jsonify({"mensaje": "Falta user_id o items"}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({"mensaje": "Usuario no encontrado"}), 404
+
+    # Crear la orden
+    orden = Order(user_id=user_id, total_price=0)
+    total = 0
+    pizza_order=[]
+
+    for item in items:
+        pizza_id = item.get("pizza_id")
+        quantity = item.get("quantity", 1)
+
+        pizza = Pizza.query.get(pizza_id)
+        if not pizza:
+            continue  # o devolver error si querés validar todo
+
+        pizza_order.append(pizza)
+        total += pizza.precio * quantity
+
+        orden_pizza = OrderPizza(pizza_id=pizza_id, quantity=quantity)
+        orden.pizzas.append(orden_pizza)
+
+    orden.total_price = total
+    db.session.add(orden)
+    try:
+        db.session.commit()
+        return jsonify({
+        "mensaje": "Orden creada exitosamente",
+        "order": pizza_order,
+        "orden_id": orden.id,
+        "total": orden.total_price
+    }), 201
     
+    except Exception as error:
+        db.session.rollback()
+        return jsonify({"message": f"Error al crear la orden: {error.args}"}), 500
+
+

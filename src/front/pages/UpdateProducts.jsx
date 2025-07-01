@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 const initialState = {
     nombre: "",
     precio: "",
+    categoria: "",
     descripcion: ""
 };
 
@@ -29,6 +30,7 @@ export const UpdateProducts = () => {
             setPizzaData({
                 nombre: pizzaToUpdate.nombre,
                 precio: pizzaToUpdate.precio,
+                categoria: pizzaToUpdate.categoria,
                 descripcion: pizzaToUpdate.descripcion || ""
             })
 
@@ -69,6 +71,7 @@ export const UpdateProducts = () => {
         const formData = new FormData()
         formData.append("nombre", pizzaData.nombre)
         formData.append("precio", pizzaData.precio)
+        formData.append("categoria", pizzaData.categoria)
         formData.append("descripcion", pizzaData.descripcion)
 
         if (imagenFile) {
@@ -83,7 +86,7 @@ export const UpdateProducts = () => {
                 body: formData
             });
             if (response.ok) {
-                alert("Pizza actualizada con éxito!")
+                alert("Producto actualizado con éxito")
                 navigate('/menu');
             } else {
                 const errorData = await response.json()
@@ -119,7 +122,8 @@ export const UpdateProducts = () => {
                                     <input
                                         type="text"
                                         className="form-control form-control-lg"
-                                        id="nombre" name="nombre"
+                                        id="nombre" 
+                                        name="nombre"
                                         value={pizzaData.nombre}
                                         onChange={handleChange}
                                         required />
@@ -147,6 +151,24 @@ export const UpdateProducts = () => {
                                         name="imagen"
                                         onChange={handleFileChange}
                                         accept="image/png, image/jpeg" />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="selectCategoria" className="form-label fw-bold">Categoría</label>
+                                    <select
+                                        id="categoria"
+                                        className="form-control-lg w-100 border border-light-subtle"
+                                        aria-label="Default select categoria"
+                                        onChange={handleChange}
+                                        name="categoria"
+                                        value={pizzaData.categoria}
+                                        required
+                                    >
+                                        <option value="">Escoge la categoria</option>
+                                        <option value="Pizza">Pizza</option>
+                                        <option value="Bebida">Bebida</option>
+                                        <option value="Postre">Postre</option>
+                                        <option value="Extra">Extra</option>
+                                    </select>
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="descripcion" className="form-label fw-bold">Descripción (opcional)</label>
