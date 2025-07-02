@@ -9,12 +9,40 @@ export const Carrito = () => {
     const totalPizzas = store.carrito.reduce((pizzasSelect, item) => pizzasSelect + item.cantidad, 0);
     const totalPrecio = store.carrito.reduce((pizzasSelect, item) => pizzasSelect + item.precio * item.cantidad, 0)
 
-    const handleConfirmar = () => {
-        alert("Pedido exitoso. ¡Estamos preparando tu envío!");
-        dispatch({
-            type: "CLEAR_ALL"
-        });
-        navigate("/");
+    const handleConfirmar = async () => {
+        const backendUrl = import.meta.env.VITE_BACKEND_URL;
+        const token = localStorage.getItem("token");
+
+        try {
+            const response = await fetch(`${backendUrl}/orders`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    user_id: store.user.id,
+                    items: store.carrito.map(item => ({
+                        pizza_id: item.id,
+                        quantity: item.cantidad
+                    }))
+                })
+            })
+            const data = await response.json();
+
+            if (response.ok) {
+                alert(`Pedido exitoso. ¡Estamos preparando tu envío! N° Orden: ${data.orden_id}`);
+                dispatch({
+                    type: "CLEAR_ALL"
+                });
+                navigate("/");
+                return;
+            }else {
+                alert("Error: No se pudo crear la orden");
+            }
+        } catch (error) {
+            alert("Ocurrió un error al procesar tu pedido");
+        }       
     }
 
     if (store.carrito.length === 0) {

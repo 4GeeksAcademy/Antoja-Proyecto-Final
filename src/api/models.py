@@ -7,7 +7,6 @@ from typing import List
 
 db = SQLAlchemy()
 
-
 class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -38,7 +37,6 @@ class Comment(db.Model):
 
 # Menú Pizzas
 
-
 class Pizza(db.Model):
     __tablename__ = "pizzas"
 
@@ -62,8 +60,6 @@ class Pizza(db.Model):
             "categoria": self.categoria,
             "descripcion": self.descripcion
         }
-
-
 
 class Order(db.Model):
     __tablename__ = "orders"
