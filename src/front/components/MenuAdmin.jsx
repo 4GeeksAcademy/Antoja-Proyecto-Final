@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 
-export const MenuAdmin = ({pizzas, onDelete }) => {
+export const MenuAdmin = ({ pizzas, onDelete }) => {
 
 
     const productosBebida = pizzas.filter(bebida => bebida.categoria === "Bebida")
@@ -89,16 +89,16 @@ export const MenuAdmin = ({pizzas, onDelete }) => {
                                         <div className="d-flex justify-content-between align-items-center mt-2">
                                             <p className="h5 fw-bold text-dark mb-0">${pizza.precio.toFixed(0)}</p>
                                         </div>
-                                        <div className="card-footer d-flex justify-content-end gap-2">
-                                            <Link to={`/update-products/${pizza.id}`} className="btn btn-dark btn-sm">
-                                                <i className="fa-solid fa-pencil"></i>
-                                            </Link>
-                                            <button
-                                                className="btn btn-danger btn-sm"
-                                                onClick={() => onDelete(pizza.id)}>
-                                                <i className="fa-solid fa-trash-can"></i>
-                                            </button>
-                                        </div>
+                                    </div>
+                                    <div className="card-footer d-flex justify-content-end gap-2 w-100">
+                                        <Link to={`/update-products/${pizza.id}`} className="btn btn-dark btn-sm">
+                                            <i className="fa-solid fa-pencil"></i>
+                                        </Link>
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={() => onDelete(pizza.id)}>
+                                            <i className="fa-solid fa-trash-can"></i>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
