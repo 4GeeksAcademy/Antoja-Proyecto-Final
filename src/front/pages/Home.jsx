@@ -8,6 +8,10 @@ import { MapsUbication } from "../components/MapsUbication.jsx"
 export const Home = () => {
 
 	const { store, dispatch } = useGlobalReducer()
+	
+	useEffect(()=>{
+	localStorage.clear()
+	},[])
 
 	const loadMessage = async () => {
 		try {

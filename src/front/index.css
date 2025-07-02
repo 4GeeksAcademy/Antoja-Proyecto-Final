@@ -140,11 +140,11 @@
 }
 .container-footer {
   background-color: rgb(170, 217, 233);
-  height: 200px;
+  height: auto;
   margin-bottom: 10px;
 }
 .text-footer {
-  margin: 0px;
+  margin: auto;
 }
 .info-footer {
   display: flex;
