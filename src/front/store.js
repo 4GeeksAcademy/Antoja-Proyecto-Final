@@ -90,7 +90,7 @@ export default function storeReducer(store, action = {}) {
         ...store,
         carrito: store.carrito.filter((item) => item.id !== action.payload),
       };
-    case "CLEAR_All":
+    case "CLEAR_ALL":
       return {
         ...store,
         carrito: [],

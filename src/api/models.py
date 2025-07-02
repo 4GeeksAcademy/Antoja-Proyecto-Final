@@ -5,7 +5,6 @@ from typing import List
 
 db = SQLAlchemy()
 
-
 class User(db.Model):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -46,7 +45,6 @@ class Pizza(db.Model):
 
     descripcion: Mapped[str] = mapped_column(Text, nullable=True)
 
-
     def serialize(self):
         return {
             "id": self.id,
@@ -57,8 +55,6 @@ class Pizza(db.Model):
             "descripcion": self.descripcion
         }
 
-
-    
 class OrderPizza(db.Model):
     __tablename__ = "order_pizza"
     order_id:Mapped[int] = db.Column(db.Integer, db.ForeignKey("orders.id"), primary_key=True)
@@ -73,7 +69,10 @@ class Order(db.Model):
     id:Mapped[int] = db.Column(db.Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(db.ForeignKey("users.id"), nullable=False)
     total_price:Mapped[float] = db.Column(db.Float, nullable=False)
-
+    user_email: Mapped[str] = mapped_column(String(120), nullable=True)
+    pizza_names: Mapped[str] = mapped_column(Text, nullable=True)
+    pizza_quantities: Mapped[str] = mapped_column(Text, nullable=True)
+   
     user: Mapped["User"] = relationship(back_populates="orders")
-
     pizzas: Mapped[List["OrderPizza"]] = relationship(back_populates="order", cascade="all, delete-orphan")
+
