@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Comment, Pizza, Order, OrderPizza
+from api.models import db, User, Comment, Pizza, Order
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -250,7 +250,7 @@ def update_pizza(pizza_id):
 
 
 @api.route("/orders", methods=["POST"])
-def crear_orden():
+def crear_order():
     data = request.get_json()
     user_id = data.get("user_id")
     items = data.get("items", [])
@@ -262,13 +262,10 @@ def crear_orden():
     if not user:
         return jsonify({"Usuario no encontrado"}), 404
 
-    # Crear la orden
-    orden = Order(user_id=user_id, total_price=0)
+    # Crear la order
+    order = Order(user_id=user_id, total_price=0)
     total = 0
     pizza_order = []
-
-    pizza_names_list = []
-    pizza_quantities_list = []    
 
     for item in items:
         pizza_id = item.get("pizza_id")
@@ -278,35 +275,30 @@ def crear_orden():
         if not pizza:
             continue  # o devolver error si querés validar todo
 
-        pizza_order.append(pizza.serialize())
+        pizza_order.append(pizza.serialize().get("nombre") + " cantidad " + str(quantity))
+       # pizza_order.append(pizza.serialize())
         total += pizza.precio * quantity
 
-        orden_pizza = OrderPizza(pizza_id=pizza_id, quantity=quantity)
-        orden.pizzas.append(orden_pizza)
 
-        pizza_names_list.append(pizza.nombre)
-        pizza_quantities_list.append(str(quantity))
-
-    orden.total_price = total
-    orden.user_email = user.email
-    orden.pizza_names = ", ".join(pizza_names_list)
-    orden.pizza_quantities = ", ".join(pizza_quantities_list)
-
+    order.total_price = total
+    order.pizza_name = pizza_order
+    print(order.pizza_name)
+    #for item in pizza_order:
+     #   item_name = item
+      #  order.pizza_name.append(item_name)
+    db.session.add(order)
     try:
-        db.session.add(orden)
-        db.session.commit()
-
-        orden.order_number = orden.id
         db.session.commit()
         
         return jsonify({
-            "mensaje": "Orden creada exitosamente",
-            "order": pizza_order,
-            "orden_id": orden.id,
-            "email_usuario": user.email,
-            "total": orden.total_price
-        }), 201
-
+        "mensaje": "order creada exitosamente",
+        "order": pizza_order,
+        "order_id": order.id,
+        "total": order.total_price
+    }), 201
+    
     except Exception as error:
         db.session.rollback()
-        return jsonify({"message": f"Error al crear la orden: {error.args}"}), 500
+        return jsonify({"message": f"Error al crear la order: {error.args}"}), 500
+
+
