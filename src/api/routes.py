@@ -91,7 +91,6 @@ def handle_login():
 @api.route("/users" , methods=["GET"])
 @jwt_required()
 def get_all_users():
-
     users=User.query.all()
     return jsonify(list(map(lambda item: item.serialize(), users))), 200
 
