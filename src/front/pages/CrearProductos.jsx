@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const initialState = {
     nombre: "",
     precio: "",
+    categoria: "", 
     descripcion: ""
 };
 
@@ -13,7 +14,7 @@ export const CrearProductos = () => {
 
     const [pizzaData, setPizzaData] = useState(initialState)
     const [imagenFile, setImagenFile] = useState(null)
-    
+
 
 
 
@@ -48,6 +49,7 @@ export const CrearProductos = () => {
         formData.append("precio", pizzaData.precio)
         formData.append("imagen", imagenFile)
         formData.append("descripcion", pizzaData.descripcion)
+        formData.append("categoria", pizzaData.categoria)
 
 
         const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -58,7 +60,7 @@ export const CrearProductos = () => {
                 body: formData
             });
             if (response.ok) {
-                alert("¡Pizza creada con éxito!")
+                alert("¡Producto creado con éxito!")
                 navigate('/menu');
             } else {
                 const errorData = await response.json()
@@ -112,6 +114,24 @@ export const CrearProductos = () => {
                                         onChange={handleFileChange}
                                         accept="image/png, image/jpeg"
                                         required />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="selectCategoria" className="form-label fw-bold">Categoría</label>
+                                    <select
+                                        id="categoria"
+                                        className="form-control-lg w-100 border border-light-subtle"
+                                        aria-label="Default select categoria"
+                                        onChange={handleChange}
+                                        name="categoria"
+                                        value={pizzaData.categoria}
+                                        required
+                                    >
+                                        <option value="">Escoge la categoria</option>
+                                        <option value="Pizza">Pizza</option>
+                                        <option value="Bebida">Bebida</option>
+                                        <option value="Postre">Postre</option>
+                                        <option value="Extra">Extra</option>
+                                    </select>
                                 </div>
                                 <div className="mb-4">
                                     <label htmlFor="descripcion" className="form-label fw-bold">Descripción (opcional)</label>
