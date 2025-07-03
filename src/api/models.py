@@ -63,10 +63,10 @@ class Pizza(db.Model):
 
 class Order(db.Model):
     __tablename__ = "orders"
-    id: Mapped[int] = db.Column(db.Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(
         db.ForeignKey("users.id"), nullable=False)
-    total_price: Mapped[float] = db.Column(db.Float, nullable=False)
+    total_price: Mapped[int] = mapped_column(Integer,nullable=False)
     pizza_name: Mapped[List[String]] = mapped_column(JSON, default=List)
 
     user: Mapped["User"] = relationship(back_populates="orders")
