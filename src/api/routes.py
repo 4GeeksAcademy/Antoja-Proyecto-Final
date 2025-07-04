@@ -281,11 +281,8 @@ def crear_order():
 
 
     order.total_price = total
-    order.pizza_name = pizza_order
-    print(order.pizza_name)
-    #for item in pizza_order:
-     #   item_name = item
-      #  order.pizza_name.append(item_name)
+    order.order = pizza_order
+
     db.session.add(order)
     try:
         db.session.commit()

@@ -67,7 +67,7 @@ class Order(db.Model):
     user_id: Mapped[int] = mapped_column(
         db.ForeignKey("users.id"), nullable=False)
     total_price: Mapped[int] = mapped_column(Integer,nullable=False)
-    pizza_name: Mapped[List[String]] = mapped_column(JSON, default=List)
+    order: Mapped[List[String]] = mapped_column(JSON, default=List)
 
     user: Mapped["User"] = relationship(back_populates="orders")
 
