@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 import os
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from sqlalchemy import func
 import cloudinary.uploader as uploader
 
 api = Blueprint('api', __name__)
@@ -155,7 +154,7 @@ def get_single_pizza(pizza_id):
 
 # Funciones  que tendra el administrador del resto
 @api.route("/pizzas", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def create_pizza():
     data_form = request.form
     data_files = request.files
