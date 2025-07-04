@@ -68,10 +68,10 @@ class Pizza(db.Model):
 
 class Order(db.Model):
     __tablename__ = "orders"
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column( ForeignKey("users.id"), nullable=False)
-    total_price: Mapped[int] = mapped_column(Integer, nullable=False)
-    pizza_name: Mapped[List[String]] = mapped_column(JSON, default=List)
+    total_price: Mapped[int] = mapped_column(Integer,nullable=False)
+    order: Mapped[List[String]] = mapped_column(JSON, default=List)
 
     user: Mapped["User"] = relationship(back_populates="orders")
 
