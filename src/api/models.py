@@ -1,10 +1,12 @@
 from flask_sqlalchemy import SQLAlchemy
+
 from sqlalchemy import String, Text, Integer, ForeignKey, Boolean, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import ARRAY
+
 from typing import List
 
 db = SQLAlchemy()
-
 
 class User(db.Model):
     __tablename__ = "users"
@@ -60,6 +62,7 @@ class Pizza(db.Model):
             "categoria": self.categoria,
             "descripcion": self.descripcion
         }
+
 
 
 

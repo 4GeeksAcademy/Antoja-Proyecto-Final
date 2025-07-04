@@ -9,7 +9,7 @@ export const AboutUs = () => {
         <div className="container-fluid container-photos p-0 ">
             <div className="row">
                 <div className="text-center mt-5 text-dark">
-                    <h2>¡Descrubre ANTOJA!</h2>
+                    <h2>¡Descubre ANTOJA!</h2>
                 </div>
                 <div className="imagen-gallery">
                     <Link to="/history"><img src={Imagen1} alt="image1" className="image-design" /></Link>

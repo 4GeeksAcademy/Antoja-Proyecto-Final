@@ -141,6 +141,7 @@
 .container-footer {
   background-color: rgb(170, 217, 233);
   height: auto;
+  margin-bottom: 10px;
 }
 .text-footer {
   margin: auto;
