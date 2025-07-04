@@ -64,7 +64,7 @@ export const Menu = () => {
     }, []);
 
     const handleDelete = async (idDeLaPizza) => {
-        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta pizza?")
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar este producto?")
 
         if (!confirmado) {
             return;
@@ -82,11 +82,11 @@ export const Menu = () => {
             });
 
             if (response.ok) {
-                alert("Pizza eliminada correctamente")
+                alert("Producto eliminada correctamente")
                 setPizzas(pizzas.filter(pizza => pizza.id !== idDeLaPizza))
 
             } else {
-                alert("Error: No se pudo eliminar la pizza.")
+                alert("Error: No se pudo eliminar el producto.")
             }
 
         } catch (error) {
