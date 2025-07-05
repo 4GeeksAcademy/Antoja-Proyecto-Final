@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 export const Contacts = () => {
     return (
-        <div className="container p-0 ">
+        <div className="container-fluid p-0 ">
             <div className="row col-12">
                 <div className="text-start mt-5 text-dark">
                     <h2>Contáctanos</h2>

@@ -1,5 +1,6 @@
 import {useState} from "react"
 import {Link, useNavigate} from "react-router-dom"
+import Swal from 'sweetalert2';
 
 const initialStateUser = {
     name:"",
@@ -39,14 +40,13 @@ export const Register = () => {
             }, 2000)
         }
         else if(response.status === 400){
-            alert(data.mensaje)
+            Swal.fire(data.mensaje);
         } else{
-            alert("Error al registrar el usuario")
+            Swal.fire("Error al registrar el usuario");
         }
-
     }
     return (
-        <div className="container">
+        <div className="container-fluid vh-100">
             <div className="row justify-content-center my-5">
                 <h2 className="text-center my-3">Registrate para continuar</h2>
                 <div className="col-12 col-md-6 rounded-4 py-4 bg-dark">
@@ -59,10 +59,8 @@ export const Register = () => {
                             id="btnName"
                             name="name"
                             onChange={handleChange}
-                            
                             />
                         </div>
-                       
                         <div className="form-group mb-3 text-light">
                             <label htmlFor="btnEmail">Correo electronico</label>
                             <input
@@ -73,7 +71,6 @@ export const Register = () => {
                             name="email"
                             onChange={handleChange}
                             />
-
                         </div>
                         <div className="form-group mb-3 text-light">
                             <label htmlFor="btnPass">Contraseña: </label>
@@ -86,23 +83,16 @@ export const Register = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        
                         <button className="btn btn-outline-light w-100">
                             Registrar
-
                         </button>
                     </form>
-                    
                 </div>
                 <div className="w-100"></div>
-
                 <div className="col-12 col-md-6  d-flex justify-content-between my-1 px-4 ">
                     <Link to="/login">Ya tengo una cuenta</Link>
                 </div>
-
             </div>
-
-            
         </div>
     )
 }
