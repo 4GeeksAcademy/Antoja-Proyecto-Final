@@ -9,7 +9,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 import os
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from sqlalchemy import func
 import cloudinary.uploader as uploader
 from datetime import timedelta
 
@@ -273,11 +272,8 @@ def crear_order():
         total += pizza.precio * quantity
 
     order.total_price = total
-    order.pizza_name = pizza_order
-    print(order.pizza_name)
-    #for item in pizza_order:
-     #   item_name = item
-      #  order.pizza_name.append(item_name)
+    order.order = pizza_order
+
     db.session.add(order)
     try:
         db.session.commit()

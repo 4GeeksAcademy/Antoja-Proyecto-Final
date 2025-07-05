@@ -16,6 +16,7 @@ export const UpdateProducts = () => {
     const [pizzaData, setPizzaData] = useState(initialState)
     const [imagenFile, setImagenFile] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [isSubmit, setIsSubmit] = useState(false)
 
     const loadInitialData = async () => {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -64,6 +65,7 @@ export const UpdateProducts = () => {
             navigate('/login')
             return;
         }
+        setIsSubmit(true)
 
         const formData = new FormData()
         formData.append("nombre", pizzaData.nombre)
@@ -108,7 +110,7 @@ export const UpdateProducts = () => {
 
     if (loading) {
         return (
-            <div className="text-center mt-5">
+            <div className="text-center mt-5 vh-100">
                 <div className="spinner-border text-dark" role="status">
                     <span className="visually-hidden">Cargando...</span>
                 </div><p className="mt-2">Cargando...</p>
@@ -192,8 +194,12 @@ export const UpdateProducts = () => {
                                     ></textarea>
                                 </div>
                                 <div className="d-grid mt-5">
-                                    <button type="submit" className="btn btn-primary">
-                                        Guardar Cambios
+                                    <button type="submit" className="btn btn-primary btn-lg fw-bold" disabled={isSubmit}>
+                                        {isSubmit ? (<>
+                                            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                            <span className="ms-2">Actualizando...</span>
+                                        </>) : ("Guardar Cambios")}
+
                                     </button>
                                 </div>
                             </form>

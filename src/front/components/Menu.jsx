@@ -75,7 +75,7 @@ export const Menu = () => {
     }, []);
 
     const handleDelete = async (idDeLaPizza) => {
-        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta pizza?")
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar este producto?")
 
         if (!confirmado) {
             return;
