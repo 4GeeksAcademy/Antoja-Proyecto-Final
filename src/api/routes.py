@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Comment, Pizza, Order
-from api.utils import generate_sitemap, APIException
+from api.utils import generate_sitemap, APIException, send_email
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -11,20 +11,24 @@ import os
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from sqlalchemy import func
 import cloudinary.uploader as uploader
+from datetime import timedelta
 
 api = Blueprint('api', __name__)
+
+def create_password(password, salt):
+    return generate_password_hash(f"{password}{salt}")
+
+expires_token = 20
+expires_delta = timedelta(minutes=expires_token)
 
 # Allow CORS requests to this API
 CORS(api)
 
-
 def set_password(password, salt):
     return generate_password_hash(f"{password}{salt}")
 
-
 def check_password(pass_hash, password, salt):
     return check_password_hash(pass_hash, f"{password}{salt}")
-
 
 @api.route('/hello', methods=['POST', 'GET'])
 def handle_hello():
@@ -35,7 +39,6 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-
 @api.route("/register", methods=["POST"])
 def add_user():
     data = request.json
@@ -45,9 +48,9 @@ def add_user():
     is_admin = data.get("is_admin", False)
     salt = b64encode(os.urandom(32)).decode("utf-8")
     if not email or not password or not name:
-        return jsonify({"mensaje": "necesitas completar el email, password y su nombre completo"}), 400
+        return jsonify({"mensaje": "Necesitas completar el email, password y su nombre completo"}), 400
     elif (User().query.filter_by(email=email).one_or_none() is not None):
-        return jsonify({"mensaje": "este mail ya esta registrado, intento con algun otro"}), 400
+        return jsonify({"mensaje": "Este mail ya está registrado, intenta con algún otro"}), 400
 
     user = User()
     user.email = email
@@ -65,7 +68,6 @@ def add_user():
     except Exception as error:
         db.session.rollback()
         return jsonify(f"Error: {error.args}"), 500
-
 
 @api.route("/login", methods=["POST"])
 def handle_login():
@@ -92,14 +94,12 @@ def handle_login():
         else:
             return jsonify("Bad password"), 400
 
-
 @api.route("/users", methods=["GET"])
 # @jwt_required()
 def get_all_users():
 
     users = User.query.all()
     return jsonify(list(map(lambda item: item.serialize(), users))), 200
-
 
 @api.route("/me", methods=["GET"])
 @jwt_required()
@@ -109,7 +109,6 @@ def get_one_user():
     if user is None:
         return jsonify("User not found"), 404
     return jsonify(user.serialize()), 200
-
 
 @api.route("/comment", methods=["POST"])
 def add_comment():
@@ -134,7 +133,6 @@ def add_comment():
         db.session.rollback()
         return jsonify({"messge": f"Error interno del servidor: {error.args}"}), 500
 
-
 @api.route("/pizzas", methods=['GET'])
 def get_pizzas():
     try:
@@ -144,7 +142,6 @@ def get_pizzas():
     except Exception as error:
         return jsonify({"message": f"Error interno: {error.args}"}), 500
 
-
 @api.route("/pizzas/<int:pizza_id>", methods=['GET'])
 def get_single_pizza(pizza_id):
     pizza = Pizza.query.get(pizza_id)
@@ -152,10 +149,9 @@ def get_single_pizza(pizza_id):
         return jsonify({"mesage": "Pizza no encontrada"}), 404
     return jsonify(pizza.serialize()), 200
 
-
 # Funciones  que tendra el administrador del resto
 @api.route("/pizzas", methods=["POST"])
-# @jwt_required()
+@jwt_required()
 def create_pizza():
     data_form = request.form
     data_files = request.files
@@ -193,7 +189,6 @@ def create_pizza():
         uploader.destroy(upload_result.get("public_id"))
         return jsonify({"message": f"Error al guardar en la base de datos: {error.args}"}), 500
 
-
 @api.route("/pizzas/<int:pizza_id>", methods=['DELETE'])
 @jwt_required()
 def delete_pizza(pizza_id):
@@ -208,7 +203,6 @@ def delete_pizza(pizza_id):
     except Exception as error:
         db.session.rollback()
         return jsonify({"message": f"Error al eliminar la pizza: {error.args}"}), 500
-
 
 @api.route("/pizzas/<int:pizza_id>", methods=["PUT"])
 @jwt_required()
@@ -248,7 +242,6 @@ def update_pizza(pizza_id):
         db.session.rollback()
         return jsonify({"message": f"Error al actualizar la pizza: {error.args}"}), 500
 
-
 @api.route("/orders", methods=["POST"])
 def crear_order():
     data = request.get_json()
@@ -279,7 +272,6 @@ def crear_order():
        # pizza_order.append(pizza.serialize())
         total += pizza.precio * quantity
 
-
     order.total_price = total
     order.pizza_name = pizza_order
     print(order.pizza_name)
@@ -300,5 +292,63 @@ def crear_order():
     except Exception as error:
         db.session.rollback()
         return jsonify({"message": f"Error al crear la order: {error.args}"}), 500
+        
+@api.route("/reset-password", methods=["POST"])
+def reset_password_user():
+    body = request.json
 
+    user = User.query.filter_by(email=body).one_or_none()
+
+    if user is None:
+        return jsonify("User not found"), 404
+
+    create_token = create_access_token(
+        identity=body, expires_delta=expires_delta)
+
+    message_url = f""" 
+    <a href="{os.getenv("FRONTEND_URL")}/update-password?token={create_token}">Recuperar contraseña</a>
+"""
+    data = {
+        "subject": "Password recovery",
+        "to": body,
+        "message": message_url
+    }
+
+    sended_email = send_email(
+        data.get("subject"), data.get("to"), data.get("message"))
+
+    if sended_email:
+        return jsonify("message sent successfully"), 200
+    else:
+        return jsonify("Error"), 400
+
+@api.route("/update-password", methods=["PUT"])
+@jwt_required()
+def update_password_user():
+    user_id = get_jwt_identity()
+    body = request.get_json()
+
+    user = User.query.filter_by(email=user_id).first()
+    print(user_id)
+
+    if user is not None:
+        salt = b64encode(os.urandom(32)).decode("utf-8")
+        new_password = body
+
+        if not new_password:
+            return jsonify({"Error": "The password was not updated"}), 400
+        
+        password = create_password(new_password, salt)
+
+        user.salt = salt
+        user.password = password
+
+        try:
+            db.session.commit()
+            return jsonify("password changed successfuly"), 201
+        except Exception as error:
+            db.session.rollback()
+            return jsonify("Error"), 500
+    else:
+        return jsonify({"Error": "Usuario no encontrado"}), 404
 

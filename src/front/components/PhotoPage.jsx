@@ -15,29 +15,17 @@ export const PhotoPage = () => {
         }
     }
     return (
-        <div className="container-photo p-0 ">
-            {/* {
-                store.user.is_admin ? (
-                    <div>
-                        <h1>soy admin</h1>
-                    </div>
-                ):
-                (
-                    <div>
-                        NO soy admin
-                    </div>
-                )
-            } */}
-            <div className="row col-12 col-md-6">
-                <div className="text-photo">
-                    <h1>50% Chilena, 50% Argentina...100% Sabor </h1>
-                </div>
-                <div className="row col-2 col-md-6">
-                    <button
-                        className="btn btn-menu"
-                        to="/menu"
-                        onClick={handleClick}><strong>Haz tu pedido</strong></button>
-                </div>
+        <div className="container-photo p-0">
+            <div className="text-photo">
+                <h1>50% Chilena, 50% Argentina...100% Sabor</h1>
+            </div>
+            <div className="button-container">
+                <button
+                    className="btn btn-menu"
+                    onClick={handleClick}
+                >
+                    <h3 className="m-0">Haz tu pedido</h3>
+                </button>
             </div>
         </div>
     )

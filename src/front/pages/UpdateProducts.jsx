@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 const initialState = {
     nombre: "",
@@ -12,12 +13,9 @@ export const UpdateProducts = () => {
     const { pizzaId } = useParams()
     const navigate = useNavigate()
 
-
     const [pizzaData, setPizzaData] = useState(initialState)
     const [imagenFile, setImagenFile] = useState(null)
     const [loading, setLoading] = useState(true)
-
-
 
     const loadInitialData = async () => {
         const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -46,7 +44,6 @@ export const UpdateProducts = () => {
         loadInitialData()
     }, [pizzaId])
 
-
     const handleChange = (event) => {
         setPizzaData({
             ...pizzaData,
@@ -63,7 +60,7 @@ export const UpdateProducts = () => {
 
         const token = localStorage.getItem("token")
         if (!token) {
-            alert("No estás autenticado. Por favor, inicia sesión.")
+            Swal.fire("No estás autenticado. Por favor, inicia sesión.");
             navigate('/login')
             return;
         }
@@ -86,14 +83,26 @@ export const UpdateProducts = () => {
                 body: formData
             });
             if (response.ok) {
-                alert("Producto actualizado con éxito")
+                Swal.fire({
+                    title: "Producto actualizado con éxito",
+                    icon: "success",
+                    draggable: true
+                });
                 navigate('/menu');
             } else {
                 const errorData = await response.json()
-                alert(`Error: ${errorData.message}`)
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: `Error: ${errorData.message}`,
+                });
             }
         } catch (error) {
-            alert("Error de conexión. No se pudieron guardar los cambios.")
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error de conexión. No se pudieron guardar los cambios.",
+            });
         }
     };
 
@@ -113,24 +122,24 @@ export const UpdateProducts = () => {
                 <div className="col-12 col-md-8 col-lg-6">
                     <div className="card shadow-lg border-0 rounded-4">
                         <div className="card-header bg-dark text-light text-center p-4 rounded-top-4">
-                            <h2 className="mb-0 fw-bold">Editar Producto</h2>
+                            <h2 className="mb-0">Editar Producto</h2>
                         </div>
                         <div className="card-body p-4 p-md-5">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label htmlFor="nombre" className="form-label fw-bold">Nombre de la Pizza</label>
+                                    <label htmlFor="nombre" className="form-label">Nombre de la Pizza</label>
                                     <input
                                         type="text"
-                                        className="form-control form-control-lg"
-                                        id="nombre" 
+                                        className="form-control form-control"
+                                        id="nombre"
                                         name="nombre"
                                         value={pizzaData.nombre}
                                         onChange={handleChange}
                                         required />
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="precio" className="form-label fw-bold">Precio</label>
-                                    <div className="input-group input-group-lg">
+                                    <label htmlFor="precio" className="form-label">Precio</label>
+                                    <div className="input-group input">
                                         <span className="input-group-text">$</span>
                                         <input
                                             type="number"
@@ -143,20 +152,20 @@ export const UpdateProducts = () => {
                                     </div>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="imagen" className="form-label fw-bold">Cambiar Imagen (opcional)</label>
+                                    <label htmlFor="imagen" className="form-label">Cambiar Imagen (opcional)</label>
                                     <input
                                         type="file"
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control"
                                         id="imagen"
                                         name="imagen"
                                         onChange={handleFileChange}
                                         accept="image/png, image/jpeg" />
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="selectCategoria" className="form-label fw-bold">Categoría</label>
+                                    <label htmlFor="selectCategoria" className="form-label">Categoría</label>
                                     <select
                                         id="categoria"
-                                        className="form-control-lg w-100 border border-light-subtle"
+                                        className="form-control w-100 border border-light-subtle"
                                         aria-label="Default select categoria"
                                         onChange={handleChange}
                                         name="categoria"
@@ -171,9 +180,9 @@ export const UpdateProducts = () => {
                                     </select>
                                 </div>
                                 <div className="mb-4">
-                                    <label htmlFor="descripcion" className="form-label fw-bold">Descripción (opcional)</label>
+                                    <label htmlFor="descripcion" className="form-label">Descripción (opcional)</label>
                                     <textarea
-                                        className="form-control form-control-lg"
+                                        className="form-control form-control"
                                         id="descripcion"
                                         name="descripcion"
                                         rows="3"
@@ -183,7 +192,7 @@ export const UpdateProducts = () => {
                                     ></textarea>
                                 </div>
                                 <div className="d-grid mt-5">
-                                    <button type="submit" className="btn btn-primary btn-lg fw-bold">
+                                    <button type="submit" className="btn btn-primary">
                                         Guardar Cambios
                                     </button>
                                 </div>

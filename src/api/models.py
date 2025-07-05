@@ -27,7 +27,6 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
-
 class Comment(db.Model):
     __tablename__ = "comment"
     id: Mapped[int] = mapped_column(primary_key=True)
