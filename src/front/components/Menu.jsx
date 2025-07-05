@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { Link } from "react-router-dom";
 import { MenuAdmin } from "./MenuAdmin";
+import Swal from 'sweetalert2';
 
 export const Menu = () => {
     const [pizzas, setPizzas] = useState([])
@@ -13,9 +14,19 @@ export const Menu = () => {
     const { store, dispatch } = useGlobalReducer()
 
     const handleAddToPizza = (pizza) => {
+        const token = localStorage.getItem("token");
+        if (!token) {
+            Swal.fire({
+                icon: "warning",
+                title: "Inicia sesión",
+                text: "Tienes que registrarte y/o iniciar sesión para añadir productos al carrito.",
+                confirmButtonText: "Entendido"
+            });
+        }
+
         const cantidad = cantidades[pizza.id] || 0;
         if (cantidad === 0) {
-            alert("Selecciona al menos una unidad");
+            Swal.fire("Selecciona al menos una unidad")
             return;
         }
         dispatch({
@@ -64,7 +75,7 @@ export const Menu = () => {
     }, []);
 
     const handleDelete = async (idDeLaPizza) => {
-        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar esta pizza?")
+        const confirmado = window.confirm("¿Estás seguro de que quieres eliminar este producto?")
 
         if (!confirmado) {
             return;
@@ -82,15 +93,27 @@ export const Menu = () => {
             });
 
             if (response.ok) {
-                alert("Pizza eliminada correctamente")
+                Swal.fire({
+                    title: "Pizza eliminada correctamente",
+                    icon: "success",
+                    draggable: true
+                });
                 setPizzas(pizzas.filter(pizza => pizza.id !== idDeLaPizza))
 
             } else {
-                alert("Error: No se pudo eliminar la pizza.")
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Error: No se pudo eliminar la pizza.",
+                });
             }
 
         } catch (error) {
-            alert("Error de conexión con el servidor.")
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error de conexión con el servidor.",
+            });
         }
     };
 
@@ -115,7 +138,7 @@ export const Menu = () => {
 
     return (
         store.user.is_admin ? (
-           <MenuAdmin pizzas={pizzas} onDelete={handleDelete}/>
+            <MenuAdmin pizzas={pizzas} onDelete={handleDelete} />
         ) : <div className="container my-4">
             <h1 className="text-center mb-4">Nuestro Menú</h1>
             <div className="d-flex justify-content-center mb-4">

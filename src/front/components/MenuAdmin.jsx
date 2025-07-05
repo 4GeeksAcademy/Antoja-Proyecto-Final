@@ -2,9 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 export const MenuAdmin = ({ pizzas, onDelete }) => {
-
 
     const productosBebida = pizzas.filter(bebida => bebida.categoria === "Bebida")
     const productosPizza = pizzas.filter(pizza => pizza.categoria === "Pizza")
@@ -12,10 +10,10 @@ export const MenuAdmin = ({ pizzas, onDelete }) => {
     const productosExtra = pizzas.filter(extra => extra.categoria === "Extra")
 
     return (
-        <div className="container my-4">
+        <div className="container-fluid my-4">
             <h1 className="text-center mb-4">Menú Administrador</h1>
             <div className="text-center mb-5">
-                <Link to="/crear-producto" className="btn btn-outline-dark btn-lg">
+                <Link to="/crear-producto" className="btn btn-outline-dark ">
                     <i className="fa-solid fa-plus"></i> Nuevo Producto
                 </Link>
             </div>
@@ -33,7 +31,6 @@ export const MenuAdmin = ({ pizzas, onDelete }) => {
                     >
                         Pizzas
                     </button>
-
                     <button
                         className="btn btn-outline-dark"
                         id="pills-profile-tab"
@@ -46,7 +43,6 @@ export const MenuAdmin = ({ pizzas, onDelete }) => {
                     >
                         Postres
                     </button>
-
                     <button
                         className="btn btn-outline-dark"
                         id="pills-contact-tab"
@@ -59,7 +55,6 @@ export const MenuAdmin = ({ pizzas, onDelete }) => {
                     >
                         Bebidas
                     </button>
-
                     <button
                         className="btn btn-outline-dark"
                         id="pill-extras-tab"

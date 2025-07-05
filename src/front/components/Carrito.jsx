@@ -1,5 +1,6 @@
 import useGlobalReducer from "../hooks/useGlobalReducer";
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 export const Carrito = () => {
 
@@ -31,30 +32,42 @@ export const Carrito = () => {
             const data = await response.json();
 
             if (response.ok) {
-                alert(`Pedido exitoso. ¡Estamos preparando tu envío! N° Orden: ${data.orden_id}`);
-                dispatch({
-                    type: "CLEAR_ALL"
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Pedido exitoso!',
+                    text: `Estamos preparando tu envío. N° Orden: ${data.order_id}`,
+                    confirmButtonText: 'Aceptar'
+                }).then(() => {
+                    dispatch({ type: "CLEAR_ALL" });
+                    navigate("/");
                 });
-                navigate("/");
                 return;
-            }else {
-                alert("Error: No se pudo crear la orden");
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Error: No se pudo crear la orden",
+                });
             }
         } catch (error) {
-            alert("Ocurrió un error al procesar tu pedido");
-        }       
+            Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Ocurrió un error al procesar tu pedido",
+                });
+        }
     }
 
     if (store.carrito.length === 0) {
         return (
-            <div className="container mt-5">
+            <div className="container-fluid vh-100 mt-5">
                 <h2 className="text-center">Tu carrito está vacío 🛒</h2>
             </div>
         )
     }
 
     return (
-        <div className="container my-5">
+        <div className="container-fluid my-5 vh-100">
             <h2 className="mb-4 text-center">Resumen de tu pedido</h2>
             <ul className="list-group mb-3 ">
                 {store.carrito.map((item) => (

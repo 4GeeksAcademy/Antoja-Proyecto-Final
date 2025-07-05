@@ -22,10 +22,10 @@ export const Navbar = () => {
 				</Link>
 				<div className="contenedor-link-navbar">
 					<Link className="btn btn-transparent text-dark border-0"
-						to="/menu">MENÚ
+						to="/menu"><i className="fa-solid fa-utensils iconos-navbar"></i>
 					</Link>
 					<Link className="btn btn-transparent text-dark border-0"
-						to="/">INICIO
+						to="/"><i className="fa-solid fa-house iconos-navbar"></i>
 					</Link>
 					{
 						store.token ? (
@@ -36,14 +36,14 @@ export const Navbar = () => {
 										localStorage.removeItem("token")
 									}}
 								>
-									CERRAR SESIÓN
+									<i className="fa-solid fa-right-from-bracket iconos-navbar"></i>
 								</Link>
 								<div className="dropdown">
 									<button
 										className="btn btn-transparent border-0 dropdown-toggle"
 										type="button"
 										data-bs-toggle="dropdown" aria-expanded="false">
-										<i className="fa-solid fa-cart-shopping"></i>
+										<i className="fa-solid fa-cart-shopping iconos-navbar"></i>
 										<span className="number-gray bg-transparent bor ms-1 me-1">
 											{store.carrito.length}
 										</span>
@@ -64,7 +64,7 @@ export const Navbar = () => {
 																event.stopPropagation();
 																deleteProduct(item.id)
 															}}>
-															<i className="fa-solid fa-trash"></i></button>
+															<i className="fa-solid fa-trash "></i></button>
 													</li>
 												)
 											}
@@ -86,7 +86,7 @@ export const Navbar = () => {
 							</>
 						) : (
 							<Link className="btn btn-transparent text-dark border-0"
-								to="/login">INICIAR SESIÓN
+								to="/login"><i className="fa-solid fa-right-to-bracket iconos-navbar"></i>
 							</Link>
 						)
 					}

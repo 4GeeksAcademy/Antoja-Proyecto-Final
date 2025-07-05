@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { Link, useNavigate, Navigate } from "react-router-dom"
 import useGlobalReducer from "../hooks/useGlobalReducer"
+import Swal from 'sweetalert2';
 
 const initialStateUser = {
     email: "",
@@ -42,10 +43,14 @@ export const Login = () => {
             }, 2000)
         }
         else if (response.status === 400) {
-            alert("credenciales incorrectas")
+            Swal.fire("Credenciales incorrectas");
         }
         else {
-            alert("error al iniciar sesion comunicate con soporte")
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error al iniciar sesion comunicate con soporte",
+            });
         }
     }
     if (store.token) {
@@ -53,7 +58,7 @@ export const Login = () => {
     }
 
     return (
-        <div className="container">
+        <div className="container-fluid vh-100">
             <div className="row justify-content-center my-5">
                 <h2 className="text-center my-3 fw-bold">Ingresar a la plataforma</h2>
                 <div className="col-12 col-md-6 border rounded-4 py-4 bg-dark" >
@@ -90,11 +95,10 @@ export const Login = () => {
                         >Inicia Sesión</button>
                     </form>
                 </div>
-
                 <div className="w-100"></div>
-
                 <div className="col-12 col-md-6  d-flex justify-content-between my-1 px-4 ">
                     <Link to="/register">Registrarme</Link>
+                    <Link to="/recovery-password">Recuperar contraseña</Link>
                 </div>
             </div>
         </div>

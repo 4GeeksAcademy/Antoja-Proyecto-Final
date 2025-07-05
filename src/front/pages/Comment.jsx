@@ -51,12 +51,12 @@ export const Comment = () => {
     }
 
     return (
-        <div className="container">
-            <div className="row d-flex justify-content-center my-5">
-                <div className="col-12 col-lg-6 p-4 p-md-5">
-                    <h2 className="mb-3 fw-bold">Contáctenos</h2>
+        <div className="container-fluid">
+            <div className="row d-flex justify-content-center my-5 px-4">
+                <div className="col-12 col-lg-6 px-4 p-md-5">
+                    <h2 className="mb-3 fw-bold">Contáctanos</h2>
                     <p className="lead mb-5">
-                        Si tiene preguntas sobre nuestros servicios, necesita asistencia o desea compartir sus comentarios, nuestro equipo especializado está a su disposición para ayudarle en todo momento.
+                        Si tienes preguntas sobre nuestros servicios, necesitas asistencia o deseas compartir tus comentarios, nuestro equipo especializado está a tu disposición para ayudarte en todo momento.
                     </p>
                     <div className="row g-4">
                         <div className="col-md-6 d-flex align-items-start">
@@ -77,7 +77,7 @@ export const Comment = () => {
                         <div className="col-md-6 d-flex align-items-start">
                             <div className="me-3"><span className="d-inline-flex justify-content-center align-items-center rounded-3 emoticones">
                                 <i className="fa-solid fa-location-dot text-white fs-5"></i></span></div>
-                            <div><h5 className="mb-1 fw-bold">Ubicacion</h5><p className="text-muted mb-0">Julio Pinto 123</p></div>
+                            <div><h5 className="mb-1 fw-bold">Ubicación</h5><p className="text-muted mb-0">Julio Pinto 123</p></div>
                         </div>
                     </div>
                 </div>
