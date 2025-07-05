@@ -1,43 +1,41 @@
-# render.yaml (Versión corregida para el problema de red)
+# render.yaml (Versión final y correcta para un proyecto con Pipenv)
 
 services:
-  # 1. El servicio de la base de datos PostgreSQL
+  # 1. El servicio de la base de datos (sin cambios)
   - type: psql
-    name: postgresql-trapezoidal-42170 # Usamos el nombre que ya tienes
+    name: postgresql-trapezoidal-42170
     region: ohio
     plan: free
-    # ipAllowList: [] # No es necesario, la configuración por defecto es segura
 
   # 2. El servicio web (tu API)
   - type: web
-    name: sample-service-name # Usamos el nombre que ya tienes
+    name: sample-service-name
     region: ohio
     plan: free
-    env: python # Mantenemos tu entorno original por ahora
+    env: python # Render detectará Pipenv automáticamente
+
+    # Comando de Build: Solo instala dependencias usando Pipenv.
+    # --deploy asegura que use Pipfile.lock y falle si no coinciden.
+    # --system instala los paquetes en el entorno virtual del sistema.
+    buildCommand: "pipenv install --deploy --system"
     
-    # El build command que intentamos antes, que debería funcionar ahora
-    buildCommand: "./render_build.sh" 
+    # Comando de Inicio: ¡AQUÍ ESTÁ LA MAGIA!
+    # Primero, ejecuta las migraciones. Si funciona (&&), entonces inicia el servidor.
+    startCommand: "flask db upgrade && gunicorn src.app:app"
     
-    # El start command corregido
-    startCommand: "gunicorn src.app:app"
-    
-    # Variables de entorno
+    # Variables de entorno (sin cambios)
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: postgresql-trapezoidal-42170 # ¡La conexión explícita!
+          name: postgresql-trapezoidal-42170
           property: connectionString
-      
-      # Definimos FLASK_APP aquí para que esté disponible en el build
       - key: FLASK_APP
-        value: src/app.py
-
-      # Las otras variables que ya tenías
+        value: src.app.py
       - key: FLASK_DEBUG
         value: "0"
       - key: FLASK_APP_KEY
-        generateValue: true # Mucho más seguro que 'any key works'
+        generateValue: true
       - key: PYTHON_VERSION
-        value: 3.10.6 # Mantenemos la versión que especificaste
+        value: 3.10.6
       - key: VITE_BASENAME
         value: /
