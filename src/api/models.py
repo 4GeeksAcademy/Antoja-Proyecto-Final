@@ -1,6 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-
-from sqlalchemy import String, Text, Integer, ForeignKey, Boolean, JSON
+from sqlalchemy import String, Text, Integer, Float, ForeignKey, Table, Column, Boolean, JSON
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import ARRAY
 
@@ -28,6 +27,7 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
 
+
 class Comment(db.Model):
     __tablename__ = "comment"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -36,7 +36,6 @@ class Comment(db.Model):
     comment: Mapped[str] = mapped_column(Text, nullable=False)
 
 # Menú Pizzas
-
 
 class Pizza(db.Model):
     __tablename__ = "pizzas"
@@ -62,16 +61,11 @@ class Pizza(db.Model):
             "descripcion": self.descripcion
         }
 
-
-
-
 class Order(db.Model):
     __tablename__ = "orders"
     id: Mapped[int] = mapped_column(primary_key=True)
-    user_id: Mapped[int] = mapped_column( ForeignKey("users.id"), nullable=False)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False)
     total_price: Mapped[int] = mapped_column(Integer,nullable=False)
     order: Mapped[List[String]] = mapped_column(JSON, default=List)
 
     user: Mapped["User"] = relationship(back_populates="orders")
-
-
