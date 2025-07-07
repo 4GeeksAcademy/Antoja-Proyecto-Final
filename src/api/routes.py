@@ -94,7 +94,7 @@ def handle_login():
             return jsonify("Bad password"), 400
 
 @api.route("/users", methods=["GET"])
-# @jwt_required()
+@jwt_required()
 def get_all_users():
 
     users = User.query.all()
