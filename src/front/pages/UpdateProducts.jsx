@@ -23,7 +23,7 @@ export const UpdateProducts = () => {
         try {
             const response = await fetch(`${backendUrl}/pizzas/${pizzaId}`);
             if (!response.ok) {
-                return Error("No se encontró la pizza.")
+                return Error("No se encontró el producto.")
             }
             const pizzaToUpdate = await response.json()
             setPizzaData({
@@ -129,7 +129,7 @@ export const UpdateProducts = () => {
                         <div className="card-body p-4 p-md-5">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label htmlFor="nombre" className="form-label">Nombre de la Pizza</label>
+                                    <label htmlFor="nombre" className="form-label">Nombre del producto</label>
                                     <input
                                         type="text"
                                         className="form-control form-control"

@@ -49,12 +49,14 @@ def send_email(subject, to, body):
 
     smtp_address = "smtp.gmail.com"
     smpt_port = 465
-    email_address = "correo4geeksprueba@gmail.com"
-    email_password = "lfyrpqlfdfjlmfxo"
+    email_address = "antojapizzeriarestaurant@gmail.com"
+    email_password = "mkxqcxiituelbqdz"
+  
+    # email_password = "lfyrpqlfdfjlmfxo"
 
     message = MIMEMultipart("alternative")
     message["Subjetc"] = subject
-    message["From"] = "correo4geeksprueba@gmail.com"
+    message["From"] = "antojapizzeriarestaurant@gmail.com"
     message["To"] = to
 
     html = """

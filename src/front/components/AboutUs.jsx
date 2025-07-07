@@ -7,8 +7,8 @@ import Imagen4 from "../assets/img/Imagen4.png";
 export const AboutUs = () => {
     return (
         <div className="container-fluid container-photos p-0 ">
-            <div className="row">
-                <div className="text-center mt-4 text-dark">
+            <div className="row justify-content-center">
+                <div className="col-12 text-center mt-4 text-dark  ">
                     <h2>¡Descubre ANTOJA!</h2>
                 </div>
                 <div className="imagen-gallery">

@@ -10,7 +10,7 @@ export const MenuAdmin = ({ pizzas, onDelete }) => {
     const productosExtra = pizzas.filter(extra => extra.categoria === "Extra")
 
     return (
-        <div className="container-fluid my-4">
+        <div className="container my-4">
             <h1 className="text-center mb-4">Menú Administrador</h1>
             <div className="text-center mb-5">
                 <Link to="/crear-producto" className="btn btn-outline-dark ">

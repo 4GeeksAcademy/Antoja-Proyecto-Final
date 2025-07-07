@@ -32,13 +32,13 @@ export const RecoveryPassword = () => {
     }
 
     return (
-        <div className="container-recovery">
+        <div className="container-recovery vh-100">
             <div className="row justify-content-center">
                 <h2 className="text-center my-3 text-dark p-3">Recuperar Contraseña</h2>
-                <div className="col-12 col-md-6 border pb-4 bg-light rounded">
+                <div className="col-12 col-md-6 rounded-4 py-4 bg-dark">
                     <form
                         onSubmit={handleSubmit}>
-                        <div className="form-group mb-3 ">
+                        <div className="form-group mb-3 text-white ">
                             <label htmlFor="btnEmail">Correo electrónico:</label>
                             <input
                                 className="form-control"
@@ -51,7 +51,7 @@ export const RecoveryPassword = () => {
                             />
                         </div>
                         <button
-                            className="btn btn-outline-primary w-100">Enviar link de recuperación</button>
+                            className="btn btn-outline-light w-100">Enviar link de recuperación</button>
                     </form>
                 </div>
             </div>

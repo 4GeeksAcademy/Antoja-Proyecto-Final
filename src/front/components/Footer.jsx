@@ -3,40 +3,42 @@ import logo from "../assets/img/Revised.png"
 
 export const Footer = () => {
 	return (
-		<div className="container-footer">
-			<div className="row col-12">
-				<div className="info-footer">
-					<div className="information-contacts">
-						<div className="info-icons">
-							<i className="fa-solid fa-location-dot"></i>
-							<p className="text-footer">Julio Pinto 123, Santiago, Chile</p>
+		<footer className="container-footer text-dark py-4 mt-auto">
+			<div className="container">
+				<div className="row text-center text-md-start justify-content-center">
+					<div className="col-12 col-md-4 mb-4">
+						<h5>Contacto</h5>
+						<div className="d-flex align-items-center mb-2">
+							<i className="fa-solid fa-location-dot me-2"></i>
+							<span>Julio Pinto 123, Santiago, Chile</span>
 						</div>
-						<div className="info-icons">
-							<i className="fa-solid fa-phone"></i>
-							<p className="text-footer">+123-456-7890</p>
+						<div className="d-flex align-items-center mb-2">
+							<i className="fa-solid fa-phone me-2"></i>
+							<span>+123-456-7890</span>
 						</div>
-					</div>
-					<div className="information-contacts-center">
-						<div className="info-icons">
-							<i className="fa-solid fa-envelope"></i>
-							<p className="text-footer">hello@antoja.com</p>
-						</div>
-						<div className="info-icons">
-							<i class="fa-solid fa-globe"></i>
-							<p className="text-footer">antoja.com</p>
+						<div className="d-flex align-items-center mb-2">
+							<i className="fa-solid fa-envelope me-2"></i>
+							<span>hello@antoja.com</span>
 						</div>
 					</div>
-					<div className="information-contacts-center">
-						<div className="info-icons">
-							<p className="text-footer">Para comentarios y/ sugerencias</p>
+					<div className="col-12 col-md-4 mb-4">
+						<h5>Web</h5>
+						<div className="d-flex align-items-center mb-2">
+							<i className="fa-solid fa-globe me-2"></i>
+							<span>antoja.com</span>
 						</div>
-						<div className="info-icons">
-							<Link className="btn btn-dark btn-sm" to="/comment">Escríbenos aquí</Link>
+						<div className="text-footer-small mt-3">
+							© 2025 Antoja - Todos los derechos reservados
 						</div>
+					</div>
+					<div className="col-12 col-md-4 mb-4">
+						<h5>Comentarios</h5>
+						<p>Para comentarios y/o sugerencias:</p>
+						<Link className="btn btn-dark btn-sm" to="/comment">Escríbenos aquí</Link>
 					</div>
 				</div>
 			</div>
-		</div>
+		</footer>
 	)
 }
 
