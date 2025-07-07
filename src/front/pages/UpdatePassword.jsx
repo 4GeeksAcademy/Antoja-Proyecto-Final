@@ -27,15 +27,15 @@ export const UpdatePassword = () => {
     }
 
     return (
-        <div className="container-update">
+        <div className="container-update vh-100">
             <div className="row justify-content-center">
                 <h2 className="text-center my-3 p-3">Actualizar Contraseña</h2>
-                <div className="col-12 col-md-6" >
+                <div className="col-12 col-md-6 rounded-4 py-4 bg-dark" >
                     <form
-                        className="border m-2 p-3"
+                        className="form-group mb-3 text-white"
                         onSubmit={handleSubmit}
                     >
-                        <div className="form-group mb-3">
+                        <div className="form-group mb-3 text-white">
                             <label htmlFor="btnPassword">Nueva contraseña: </label>
                             <input
                                 type="text"
@@ -48,7 +48,7 @@ export const UpdatePassword = () => {
                             />
                         </div>
                         <button
-                            className="btn btn-outline-primary w-100"
+                            className="btn btn-outline-light w-100"
                         >Actualizar contraseña</button>
                     </form>
                 </div>

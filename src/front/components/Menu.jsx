@@ -94,7 +94,7 @@ export const Menu = () => {
 
             if (response.ok) {
                 Swal.fire({
-                    title: "Pizza eliminada correctamente",
+                    title: "Producto eliminado correctamente",
                     icon: "success",
                     draggable: true
                 });
@@ -104,7 +104,7 @@ export const Menu = () => {
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
-                    text: "Error: No se pudo eliminar la pizza.",
+                    text: "Error: No se pudo eliminar el producto.",
                 });
             }
 

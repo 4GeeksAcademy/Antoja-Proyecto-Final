@@ -148,10 +148,6 @@
 }
 .container-footer {
   background-color: rgb(170, 217, 233);
-  width: 100%;
-  margin-bottom: 0px;
-  padding-top: 30px;
-  padding-bottom: 30px;
 }
 .text-footer {
   margin: auto;
@@ -160,6 +156,9 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+}
+.text-footer-small{
+  font-size: 10px;
 }
 .image-restaurant {
   height: 350px;

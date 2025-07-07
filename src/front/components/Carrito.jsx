@@ -78,7 +78,7 @@ export const Carrito = () => {
                 ))}
             </ul>
             <div className="text-end mb-4">
-                <p><strong>Total de pizzas:</strong> {totalPizzas}</p>
+                <p><strong>Total de productos:</strong> {totalPizzas}</p>
                 <p><strong>Total a pagar:</strong> ${totalPrecio.toLocaleString()}</p>
             </div>
             <div className="text-center">

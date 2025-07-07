@@ -95,7 +95,7 @@ export const CrearProductos = () => {
                         <div className="card-body p-4 p-md-5">
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-4">
-                                    <label htmlFor="nombre" className="form-label ">Nombre de la Pizza</label>
+                                    <label htmlFor="nombre" className="form-label ">Nombre del producto</label>
                                     <input
                                         type="text"
                                         className="form-control form-control"

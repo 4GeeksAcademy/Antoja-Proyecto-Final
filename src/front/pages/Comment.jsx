@@ -1,6 +1,5 @@
-
-
 import { useState } from "react";
+import Swal from 'sweetalert2';
 
 const initialState = {
     email: "",
@@ -40,7 +39,8 @@ export const Comment = () => {
             const data = await response.json()
 
             if (response.ok) {
-                setMessage({ type: 'success', text: data.message || "¡Gracias por tu comentario!" })
+                Swal.fire("Gracias por tu comentario, nos contactaremos a la brevedad")
+                // setMessage({ type: 'success', text: data.message || "¡Gracias por tu comentario!" })
                 setComment(initialState)
                 return Error(data.message || `Error del servidor: ${response.status}`)
             }
